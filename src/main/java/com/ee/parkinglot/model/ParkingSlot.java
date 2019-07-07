@@ -4,9 +4,11 @@ import java.util.Objects;
 
 public class ParkingSlot {
 
-	private int slotNumber;
+	private final int slotNumber;
 
 	private State state;
+
+	private Car parkedCar;
 
 	public ParkingSlot(int slotNumber, State state) {
 		this.slotNumber = slotNumber;
@@ -25,6 +27,20 @@ public class ParkingSlot {
 		return slotNumber;
 	}
 
+	public void allocatedTo(Car car) {
+		this.setCar(car)
+		state = State.ALLOCATED;
+	}
+
+	private void setCar(Car car) {
+		this.parkedCar = car;
+	}
+
+	public String getParkedCarRegistrationNumber() {
+		this.parkedCar.getRegistrationNumber();
+	}
+
+	public enum State {ALLOCATED, FREE}
 
 	@Override
 	public boolean equals(Object o) {
@@ -42,10 +58,4 @@ public class ParkingSlot {
 	public int hashCode() {
 		return Objects.hash(getSlotNumber());
 	}
-
-	public void allocated() {
-		state = State.ALLOCATED;
-	}
-
-	public enum State {ALLOCATED, FREE}
 }

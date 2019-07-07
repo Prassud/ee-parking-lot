@@ -74,6 +74,7 @@ public class ParkingSlotManagerTest {
 		verify(parkingLotAllocationStrategy).getNextAvailableParkingSlot(parkingSlotsCaptor.capture());
 		List<ParkingSlot> parkingSlots = parkingSlotsCaptor.getValue();
 		assertEquals(expectedParkingSlots, parkingSlots);
+		assertEquals(carToBeParked, expectedParkingSlots.get(0).getParkedCarRegistrationNumber());
 	}
 
 	@Test(expected = ParkingLotException.class)
@@ -82,5 +83,35 @@ public class ParkingSlotManagerTest {
 		List<ParkingSlot> expectedParkingSlots = TestUtils.createMultipleFreeParkingLots(10);
 		when(parkingLotAllocationStrategy.getNextAvailableParkingSlot(anyList())).thenReturn(expectedParkingSlots.get(0));
 		parkingSlotManager.processParking(carToBeParked);
+	}
+
+	@Test
+	public void shouldGetTheParkingSlotDetailsBasedOnParkingSlotNumber() {
+		ParkingSlot parkingSlot = new ParkingSlot(4, ParkingSlot.State.FREE);
+		Car carToBeParked = new Car("abc", Car.Color.RED);
+		parkingSlotManager.processParking(carToBeParked);
+
+		ParkingSlot retrievedParkingSlot = parkingSlotManager.getAllocatedParkingSlotBySlotNumber(4);
+		assertEquals(parkingSlot, retrievedParkingSlot);
+	}
+
+	@Test(expected = ParkingLotException.class)
+	public void shouldTrowParkingSlotExceptionWhenParkingSlotIsNotAllocated() {
+		Car carToBeParked = new Car("abc", Car.Color.RED);
+		List<ParkingSlot> expectedParkingSlots = TestUtils.createMultipleFreeParkingLots(10);
+		when(parkingLotAllocationStrategy.getNextAvailableParkingSlot(anyList())).thenReturn(expectedParkingSlots.get(0));
+		parkingSlotManager.processParking(carToBeParked);
+
+		parkingSlotManager.getAllocatedParkingSlotBySlotNumber(1);
+	}
+
+	@Test(expected = ParkingLotException.class)
+	public void shouldTrowParkingSlotExceptionWhenParkingSlotNumberExceedsTheParkingLotSize() {
+		Car carToBeParked = new Car("abc", Car.Color.RED);
+		List<ParkingSlot> expectedParkingSlots = TestUtils.createMultipleFreeParkingLots(10);
+		when(parkingLotAllocationStrategy.getNextAvailableParkingSlot(anyList())).thenReturn(expectedParkingSlots.get(0));
+		parkingSlotManager.processParking(carToBeParked);
+
+		parkingSlotManager.getAllocatedParkingSlotBySlotNumber(100);
 	}
 }

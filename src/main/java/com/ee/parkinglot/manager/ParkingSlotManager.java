@@ -33,7 +33,18 @@ public class ParkingSlotManager {
 		if (isNull(parkingSlot)) {
 			throw new ParkingLotException("No Free Slot is Available");
 		}
-		parkingSlot.allocated();
+		parkingSlot.allocatedTo(car);
 		return ticketManager.issueTicket(parkingSlot, car);
+	}
+
+	public ParkingSlot getAllocatedParkingSlotBySlotNumber(int slotNumber) {
+		if (this.parkingSlots.size() > slotNumber) {
+			throw new ParkingLotException("Parkingslot exceeds the maximum size");
+		}
+		ParkingSlot parkingSlot = this.parkingSlots.get(slotNumber - 1);
+		if (parkingSlot.isFree()) {
+			throw new ParkingLotException("Parking Lot is not allocated");
+		}
+		return parkingSlot;
 	}
 }
