@@ -86,32 +86,22 @@ public class ParkingSlotManagerTest {
 	}
 
 	@Test
-	public void shouldGetTheParkingSlotDetailsBasedOnParkingSlotNumber() {
+	public void shouldGetTheParkingSlotDetailsBasedOnCarRegistrationNumber() {
 		ParkingSlot parkingSlot = new ParkingSlot(4, ParkingSlot.State.FREE);
 		Car carToBeParked = new Car("abc", Car.Color.RED);
 		parkingSlotManager.processParking(carToBeParked);
 
-		ParkingSlot retrievedParkingSlot = parkingSlotManager.getAllocatedParkingSlotBySlotNumber(4);
+		ParkingSlot retrievedParkingSlot = parkingSlotManager.getAllocatedParkingSlotByCarRegistrationNumber("abc");
 		assertEquals(parkingSlot, retrievedParkingSlot);
 	}
 
 	@Test(expected = ParkingLotException.class)
-	public void shouldTrowParkingSlotExceptionWhenParkingSlotIsNotAllocated() {
+	public void shouldThrowExceptionGetTheParkingSlotDetailsBasedOnCarRegistrationNumberIsNotPresent() {
+		ParkingSlot parkingSlot = new ParkingSlot(4, ParkingSlot.State.FREE);
 		Car carToBeParked = new Car("abc", Car.Color.RED);
-		List<ParkingSlot> expectedParkingSlots = TestUtils.createMultipleFreeParkingLots(10);
-		when(parkingLotAllocationStrategy.getNextAvailableParkingSlot(anyList())).thenReturn(expectedParkingSlots.get(0));
 		parkingSlotManager.processParking(carToBeParked);
 
-		parkingSlotManager.getAllocatedParkingSlotBySlotNumber(1);
-	}
-
-	@Test(expected = ParkingLotException.class)
-	public void shouldTrowParkingSlotExceptionWhenParkingSlotNumberExceedsTheParkingLotSize() {
-		Car carToBeParked = new Car("abc", Car.Color.RED);
-		List<ParkingSlot> expectedParkingSlots = TestUtils.createMultipleFreeParkingLots(10);
-		when(parkingLotAllocationStrategy.getNextAvailableParkingSlot(anyList())).thenReturn(expectedParkingSlots.get(0));
-		parkingSlotManager.processParking(carToBeParked);
-
-		parkingSlotManager.getAllocatedParkingSlotBySlotNumber(100);
+		ParkingSlot retrievedParkingSlot = parkingSlotManager.getAllocatedParkingSlotByCarRegistrationNumber("abc123");
+		assertEquals(parkingSlot, retrievedParkingSlot);
 	}
 }

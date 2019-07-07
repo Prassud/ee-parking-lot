@@ -19,6 +19,10 @@ public class ParkingSlot {
 		return this.state == State.FREE;
 	}
 
+	public boolean isAllocated() {
+		return this.state == State.ALLOCATED;
+	}
+
 	public State getState() {
 		return state;
 	}
@@ -28,16 +32,16 @@ public class ParkingSlot {
 	}
 
 	public void allocatedTo(Car car) {
-		this.setCar(car)
+		this.setParkedCar(car);
 		state = State.ALLOCATED;
 	}
 
-	private void setCar(Car car) {
+	private void setParkedCar(Car car) {
 		this.parkedCar = car;
 	}
 
 	public String getParkedCarRegistrationNumber() {
-		this.parkedCar.getRegistrationNumber();
+		return this.parkedCar.getRegistrationNumber();
 	}
 
 	public enum State {ALLOCATED, FREE}

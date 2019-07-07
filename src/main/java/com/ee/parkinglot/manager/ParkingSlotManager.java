@@ -8,8 +8,10 @@ import com.ee.parkinglot.model.Ticket;
 import com.ee.parkinglot.ticketing.TicketManager;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static java.util.Objects.isNull;
 
@@ -37,14 +39,18 @@ public class ParkingSlotManager {
 		return ticketManager.issueTicket(parkingSlot, car);
 	}
 
-	public ParkingSlot getAllocatedParkingSlotBySlotNumber(int slotNumber) {
-		if (this.parkingSlots.size() > slotNumber) {
-			throw new ParkingLotException("Parkingslot exceeds the maximum size");
+	public ParkingSlot getAllocatedParkingSlotByCarRegistrationNumber(String registrationNumber) {
+		Optional<ParkingSlot> parkingSlot = getAllocatedParkingSlots()
+				.filter((eachSlot) -> eachSlot.getParkedCarRegistrationNumber().equals(registrationNumber))
+				.findFirst();
+
+		if (!parkingSlot.isPresent()) {
+			throw new ParkingLotException("Parking slot not found");
 		}
-		ParkingSlot parkingSlot = this.parkingSlots.get(slotNumber - 1);
-		if (parkingSlot.isFree()) {
-			throw new ParkingLotException("Parking Lot is not allocated");
-		}
-		return parkingSlot;
+		return parkingSlot.get();
+	}
+
+	private Stream<ParkingSlot> getAllocatedParkingSlots() {
+		return this.parkingSlots.stream().filter(ParkingSlot::isAllocated);
 	}
 }
