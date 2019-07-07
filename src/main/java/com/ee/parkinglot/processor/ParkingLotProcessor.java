@@ -21,6 +21,7 @@ public class ParkingLotProcessor {
 	}
 
 	public void park() {
-		parkingLotAllocationStrategy.getNextAvailableParkingSlot(parkingLots);
+		ParkingLot parkingLot = parkingLotAllocationStrategy.getNextAvailableParkingSlot(parkingLots);
+		parkingLot.allocated();
 	}
 }

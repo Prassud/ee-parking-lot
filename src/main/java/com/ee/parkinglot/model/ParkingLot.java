@@ -42,5 +42,9 @@ public class ParkingLot {
 		return Objects.hash(getLotNumber());
 	}
 
+	public void allocated() {
+		state = State.ALLOCATED;
+	}
+
 	public enum State {ALLOCATED, FREE}
 }
