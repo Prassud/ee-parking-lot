@@ -13,13 +13,15 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyList;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 
@@ -50,7 +52,7 @@ public class ParkingSlotManagerTest {
 		Ticket expectedTicket = new Ticket(expectedParkingSlots.get(0), carToBeParked);
 		when(parkingLotAllocationStrategy.getNextAvailableParkingSlot(anyList())).thenReturn(expectedParkingSlots.get(0));
 		when(ticketManager.issueTicket(expectedParkingSlots.get(0), carToBeParked)).thenReturn(expectedTicket);
-		Ticket ticket = parkingSlotManager.processParking(carToBeParked);
+		Ticket ticket = parkingSlotManager.park(carToBeParked);
 
 		ArgumentCaptor<List> parkingSlotsCaptor = ArgumentCaptor.forClass(List.class);
 		ArgumentCaptor<ParkingSlot> parkingLotCaptor = ArgumentCaptor.forClass(ParkingSlot.class);
@@ -73,7 +75,7 @@ public class ParkingSlotManagerTest {
 		Car carToBeParked = new Car("abc", Car.Color.RED);
 		List<ParkingSlot> expectedParkingSlots = TestUtils.createMultipleFreeParkingLots(10);
 		when(parkingLotAllocationStrategy.getNextAvailableParkingSlot(anyList())).thenReturn(expectedParkingSlots.get(0));
-		parkingSlotManager.processParking(carToBeParked);
+		parkingSlotManager.park(carToBeParked);
 
 		ArgumentCaptor<List> parkingSlotsCaptor = ArgumentCaptor.forClass(List.class);
 		verify(parkingLotAllocationStrategy).getNextAvailableParkingSlot(parkingSlotsCaptor.capture());
@@ -89,8 +91,8 @@ public class ParkingSlotManagerTest {
 		List<ParkingSlot> expectedParkingSlots = TestUtils.createMultipleFreeParkingLots(10);
 		when(parkingLotAllocationStrategy.getNextAvailableParkingSlot(anyList())).thenReturn(expectedParkingSlots.get(0));
 		try {
-			parkingSlotManager.processParking(carToBeParked);
-			parkingSlotManager.processParking(carToBeParked);
+			parkingSlotManager.park(carToBeParked);
+			parkingSlotManager.park(carToBeParked);
 		} catch (ParkingLotException ex) {
 			assertEquals("No Free Slot is Available", ex.getMessage());
 		}
@@ -103,7 +105,7 @@ public class ParkingSlotManagerTest {
 		List<ParkingSlot> expectedParkingSlots = TestUtils.createMultipleFreeParkingLots(10);
 		when(parkingLotAllocationStrategy.getNextAvailableParkingSlot(anyList())).thenReturn(expectedParkingSlots.get(0));
 		try {
-			parkingSlotManager.processParking(carToBeParked);
+			parkingSlotManager.park(carToBeParked);
 		} catch (ParkingLotException ex) {
 			assertEquals("Invalid Range on creating Parking slots", ex.getMessage());
 		}
@@ -111,47 +113,37 @@ public class ParkingSlotManagerTest {
 
 	@Test
 	public void shouldGetTheParkingSlotDetailsFromAbstractSearchParkingSlot() {
-		ParkingSlot parkingSlot = new ParkingSlot(4, ParkingSlot.State.FREE);
-		when(abstractSearchParkingSlot.search(any())).thenReturn(parkingSlot);
+		List<ParkingSlot> slots = Collections.singletonList(new ParkingSlot(4, ParkingSlot.State.FREE));
+		when(abstractSearchParkingSlot.search(any(), anyList())).thenReturn(slots);
 
-		ParkingSlot retrievedParkingSlot = parkingSlotManager.searchParkingSlot("get_by_color", "abc");
-		verify(abstractSearchParkingSlot).search("abc");
+		List<ParkingSlot> retrievedParkingSlot = parkingSlotManager.searchParkingSlot("get_by_color", "abc");
+		ArgumentCaptor<Object> searchParam = ArgumentCaptor.forClass(Object.class);
+		ArgumentCaptor<List> parkingSlots = ArgumentCaptor.forClass(List.class);
+		verify(abstractSearchParkingSlot).search(searchParam.capture(), parkingSlots.capture());
 
-		assertEquals(parkingSlot, retrievedParkingSlot);
+		assertEquals("abc",searchParam.getValue());
+		assertFalse(parkingSlots.getValue().isEmpty());
+		assertEquals(slots, retrievedParkingSlot);
 	}
 
 	@Test
 	public void shouldThrowParkingLotExceptionWhenGetTheParkingSlotDetailsFromAbstractSearchParkingSlotIsNotPresent() {
-		when(abstractSearchParkingSlot.search(any())).thenReturn(null);
+		when(abstractSearchParkingSlot.search(any(), anyList())).thenReturn(new ArrayList<>());
 
 		try {
-			parkingSlotManager.searchParkingSlot("abc", "");
-			verify(abstractSearchParkingSlot).search("abc");
+			parkingSlotManager.searchParkingSlot("get_by_colorx", "");
+			verify(abstractSearchParkingSlot, never()).search(any(), any());
 		} catch (ParkingLotException ex) {
 			assertEquals("Parking slot not found", ex.getMessage());
 		}
 	}
 
-	@Test(expected = ParkingLotException.class)
+	@Test
 	public void shouldThrowParkingLotExceptionSearchCommandIsNotPresent() {
-		ParkingSlot parkingSlot = new ParkingSlot(4, ParkingSlot.State.FREE);
 		try {
 			parkingSlotManager.searchParkingSlot("abc", "");
 		} catch (ParkingLotException exception) {
 			assertEquals("Invalid Search Command", exception.getMessage());
 		}
 	}
-
-	@Test(expected = ParkingLotException.class)
-	public void shouldThrowExceptionGetTheParkingSlotDetailsBasedOnCarRegistrationNumberIsNotPresent() {
-		ParkingSlot parkingSlot = new ParkingSlot(4, ParkingSlot.State.FREE);
-		Car carToBeParked = new Car("abc", Car.Color.RED);
-		List<ParkingSlot> expectedParkingSlots = TestUtils.createMultipleFreeParkingLots(10);
-		when(parkingLotAllocationStrategy.getNextAvailableParkingSlot(anyList())).thenReturn(expectedParkingSlots.get(0));
-		parkingSlotManager.processParking(carToBeParked);
-
-		ParkingSlot retrievedParkingSlot = parkingSlotManager.getAllocatedParkingSlotByCarRegistrationNumber("abc123");
-		assertEquals(parkingSlot, retrievedParkingSlot);
-	}
-
 }

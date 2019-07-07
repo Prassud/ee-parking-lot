@@ -8,13 +8,11 @@ import com.ee.parkinglot.model.Ticket;
 import com.ee.parkinglot.search.AbstractSearchParkingSlot;
 import com.ee.parkinglot.ticketing.TicketManager;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import static java.util.Objects.isNull;
 
@@ -22,7 +20,7 @@ public class ParkingSlotManager {
 
 	private final List<ParkingSlot> parkingSlots;
 
-	private Map<String, AbstractSearchParkingSlot> searchCommands;
+	private Map<String, AbstractSearchParkingSlot> searchCommands = new HashMap<>();
 
 	private final ParkingLotAllocationStrategy parkingLotAllocationStrategy;
 
@@ -38,7 +36,7 @@ public class ParkingSlotManager {
 				eachIndex -> new ParkingSlot(eachIndex, ParkingSlot.State.FREE)).collect(Collectors.toList());
 	}
 
-	public Ticket processParking(Car car) {
+	public Ticket park(Car car) {
 		ParkingSlot parkingSlot = parkingLotAllocationStrategy.getNextAvailableParkingSlot(parkingSlots);
 		if (isNull(parkingSlot)) {
 			throw new ParkingLotException("No Free Slot is Available");
@@ -47,44 +45,18 @@ public class ParkingSlotManager {
 		return ticketManager.issueTicket(parkingSlot, car);
 	}
 
-	public ParkingSlot getAllocatedParkingSlotByCarRegistrationNumber(String registrationNumber) {
-		Optional<ParkingSlot> parkingSlot = getAllocatedParkingSlots()
-				.filter((eachSlot) -> eachSlot.getParkedCarRegistrationNumber().equals(registrationNumber))
-				.findFirst();
-
-		if (!parkingSlot.isPresent()) {
-			throw new ParkingLotException("Parking slot not found");
-		}
-		return parkingSlot.get();
-	}
-
-
-	public ParkingSlot getAllocatedParkingSlotByCarColor(Car.Color color) {
-		Optional<ParkingSlot> parkingSlot = getAllocatedParkingSlots().filter((eachSlot) -> eachSlot.getParkedCarColor().equals(color))
-				.findFirst();
-
-		if (!parkingSlot.isPresent()) {
-			throw new ParkingLotException("Parking slot not found");
-		}
-		return parkingSlot.get();
-	}
-
-	private Stream<ParkingSlot> getAllocatedParkingSlots() {
-		return this.parkingSlots.stream().filter(ParkingSlot::isAllocated);
-	}
-
-	public ParkingSlot searchParkingSlot(String searchCommandName, Object searchParam) {
+	public List<ParkingSlot> searchParkingSlot(String searchCommandName, Object searchParam) {
 		AbstractSearchParkingSlot searchCommand = this.searchCommands.get(searchCommandName);
 		if (isNull(searchCommand)) {
 			throw new ParkingLotException("Invalid Search Command");
 		}
-		ParkingSlot parkingSlot = searchCommand.search(searchParam);
+		List<ParkingSlot> parkingSlots = searchCommand.search(searchParam, this.parkingSlots);
 
-		if (isNull(parkingSlot)) {
+		if (parkingSlots.isEmpty()) {
 			throw new ParkingLotException("Parking slot not found");
 		}
 
-		return parkingSlot;
+		return parkingSlots;
 	}
 
 	public void register(String searchCommandName, AbstractSearchParkingSlot searchCommand) {
