@@ -1,7 +1,7 @@
-package com.ee.parkinglot.ticketing.strategy;
+package com.ee.parkinglot.allocation.strategy;
 
 import com.ee.parkinglot.model.ParkingLot;
-import com.ee.parkinglot.model.ticketing.strategy.SequenceTicketingStrategy;
+import com.ee.parkinglot.allocation.strategy.SequenceParkingLotAllocationStrategy;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,13 +11,13 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-public class SequenceTicketingStrategyTest {
+public class SequenceParkingLotAllocationStrategyTest {
 
-	private SequenceTicketingStrategy sequenceTicketingStrategy;
+	private SequenceParkingLotAllocationStrategy sequenceTicketingStrategy;
 
 	@Before
 	public void setUp() throws Exception {
-		sequenceTicketingStrategy = new SequenceTicketingStrategy();
+		sequenceTicketingStrategy = new SequenceParkingLotAllocationStrategy();
 	}
 
 	@Test
