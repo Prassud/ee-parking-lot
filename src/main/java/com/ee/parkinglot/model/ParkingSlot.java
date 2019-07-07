@@ -4,11 +4,11 @@ import java.util.Objects;
 
 public class ParkingSlot {
 
-	public int getLotNumber() {
-		return lotNumber;
+	public int getSlotNumber() {
+		return slotNumber;
 	}
 
-	private int lotNumber;
+	private int slotNumber;
 
 	public State getState() {
 		return state;
@@ -16,8 +16,8 @@ public class ParkingSlot {
 
 	private State state;
 
-	public ParkingSlot(int lotNumber, State state) {
-		this.lotNumber = lotNumber;
+	public ParkingSlot(int slotNumber, State state) {
+		this.slotNumber = slotNumber;
 		this.state = state;
 	}
 
@@ -34,12 +34,12 @@ public class ParkingSlot {
 			return false;
 		}
 		ParkingSlot that = (ParkingSlot) o;
-		return getLotNumber() == that.getLotNumber();
+		return getSlotNumber() == that.getSlotNumber();
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(getLotNumber());
+		return Objects.hash(getSlotNumber());
 	}
 
 	public void allocated() {

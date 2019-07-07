@@ -11,7 +11,7 @@ public class ParkingSlotTest {
 		int lotNumber = 10;
 		ParkingSlot parkingSlot = new ParkingSlot(lotNumber, ParkingSlot.State.FREE);
 
-		assertEquals(lotNumber, parkingSlot.getLotNumber());
+		assertEquals(lotNumber, parkingSlot.getSlotNumber());
 		assertEquals(ParkingSlot.State.FREE, parkingSlot.getState());
 	}
 }

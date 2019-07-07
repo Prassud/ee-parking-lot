@@ -14,6 +14,6 @@ public class TicketTest {
 
 		assertEquals("registration_number", ticket.getCarRegistrationNumber());
 		assertEquals(Car.Color.RED, ticket.getCarColor());
-		assertEquals(parkingSlot.getLotNumber(), ticket.getParkingSlotNumber());
+		assertEquals(parkingSlot.getSlotNumber(), ticket.getParkingSlotNumber());
 	}
 }

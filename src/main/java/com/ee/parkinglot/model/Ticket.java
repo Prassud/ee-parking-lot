@@ -10,7 +10,7 @@ public class Ticket {
 	private Car.Color carColor;
 
 	public Ticket(ParkingSlot parkingSlot, Car car) {
-		this.parkingSlotNumbe = parkingSlot.getLotNumber();
+		this.parkingSlotNumbe = parkingSlot.getSlotNumber();
 		this.carColor = car.getColor();
 	}
 
