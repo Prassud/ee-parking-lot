@@ -8,7 +8,20 @@ public class ParkingLot {
 
 	private int lotNumber;
 
-	public ParkingLot(int lotNumber) {
-		this.lotNumber = lotNumber;
+	public State getState() {
+		return state;
 	}
+
+	private State state;
+
+	public ParkingLot(int lotNumber, State state) {
+		this.lotNumber = lotNumber;
+		this.state = state;
+	}
+
+	public boolean isFree() {
+		return this.state == State.FREE;
+	}
+
+	public enum State {ALLOCATED, FREE}
 }
