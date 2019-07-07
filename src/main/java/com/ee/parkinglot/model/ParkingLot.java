@@ -1,5 +1,7 @@
 package com.ee.parkinglot.model;
 
+import java.util.Objects;
+
 public class ParkingLot {
 
 	public int getLotNumber() {
@@ -21,6 +23,23 @@ public class ParkingLot {
 
 	public boolean isFree() {
 		return this.state == State.FREE;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		ParkingLot that = (ParkingLot) o;
+		return getLotNumber() == that.getLotNumber();
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getLotNumber());
 	}
 
 	public enum State {ALLOCATED, FREE}
