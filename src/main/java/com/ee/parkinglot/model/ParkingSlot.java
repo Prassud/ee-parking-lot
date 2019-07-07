@@ -44,6 +44,10 @@ public class ParkingSlot {
 		return this.parkedCar.getRegistrationNumber();
 	}
 
+	public Car.Color getParkedCarColor() {
+		return this.parkedCar.getColor();
+	}
+
 	public enum State {ALLOCATED, FREE}
 
 	@Override

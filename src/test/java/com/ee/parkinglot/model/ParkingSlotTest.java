@@ -13,5 +13,20 @@ public class ParkingSlotTest {
 
 		assertEquals(lotNumber, parkingSlot.getSlotNumber());
 		assertEquals(ParkingSlot.State.FREE, parkingSlot.getState());
+		assertTrue(parkingSlot.isFree());
+	}
+
+	@Test
+	public void shouldSetParkingLotStateAsAllocated() {
+		int lotNumber = 10;
+		Car allocatedCar = new Car("abc", Car.Color.WHITE);
+		ParkingSlot parkingSlot = new ParkingSlot(lotNumber, ParkingSlot.State.FREE);
+
+		parkingSlot.allocatedTo(allocatedCar);
+		assertEquals(lotNumber, parkingSlot.getSlotNumber());
+		assertEquals(ParkingSlot.State.ALLOCATED, parkingSlot.getState());
+		assertEquals(allocatedCar.getRegistrationNumber(), parkingSlot.getParkedCarRegistrationNumber());
+		assertEquals(allocatedCar.getColor(), parkingSlot.getParkedCarColor());
+		assertTrue(parkingSlot.isAllocated());
 	}
 }
