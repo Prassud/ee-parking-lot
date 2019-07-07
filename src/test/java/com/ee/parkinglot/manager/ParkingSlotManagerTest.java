@@ -1,4 +1,4 @@
-package com.ee.parkinglot.processor;
+package com.ee.parkinglot.manager;
 
 import com.ee.parkinglot.allocation.strategy.ParkingLotAllocationStrategy;
 import com.ee.parkinglot.exception.ParkingLotException;
@@ -21,8 +21,7 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 
-public class
-ParkingSlotProcessorTest {
+public class ParkingSlotManagerTest {
 
 	@Mock
 	private ParkingLotAllocationStrategy parkingLotAllocationStrategy;
@@ -30,12 +29,12 @@ ParkingSlotProcessorTest {
 	@Mock
 	private TicketManager ticketManager;
 
-	private ParkingLotProcessor parkingLotProcessor;
+	private ParkingSlotManager parkingSlotManager;
 
 	@Before
 	public void setUp() throws Exception {
 		initMocks(this);
-		parkingLotProcessor = new ParkingLotProcessor(parkingLotAllocationStrategy, ticketManager, 10);
+		parkingSlotManager = new ParkingSlotManager(parkingLotAllocationStrategy, ticketManager, 10);
 	}
 
 	@Test
@@ -45,7 +44,7 @@ ParkingSlotProcessorTest {
 		Ticket expectedTicket = new Ticket(expectedParkingSlots.get(0), carToBeParked);
 		when(parkingLotAllocationStrategy.getNextAvailableParkingSlot(anyList())).thenReturn(expectedParkingSlots.get(0));
 		when(ticketManager.issueTicket(expectedParkingSlots.get(0), carToBeParked)).thenReturn(expectedTicket);
-		Ticket ticket = parkingLotProcessor.processParking(carToBeParked);
+		Ticket ticket = parkingSlotManager.processParking(carToBeParked);
 
 		ArgumentCaptor<List> parkingSlotsCaptor = ArgumentCaptor.forClass(List.class);
 		ArgumentCaptor<ParkingSlot> parkingLotCaptor = ArgumentCaptor.forClass(ParkingSlot.class);
@@ -69,7 +68,7 @@ ParkingSlotProcessorTest {
 		Car carToBeParked = new Car("abc", Car.Color.RED);
 		List<ParkingSlot> expectedParkingSlots = TestUtils.createMultipleFreeParkingLots(10);
 		when(parkingLotAllocationStrategy.getNextAvailableParkingSlot(anyList())).thenReturn(expectedParkingSlots.get(0));
-		parkingLotProcessor.processParking(carToBeParked);
+		parkingSlotManager.processParking(carToBeParked);
 
 		ArgumentCaptor<List> parkingSlotsCaptor = ArgumentCaptor.forClass(List.class);
 		verify(parkingLotAllocationStrategy).getNextAvailableParkingSlot(parkingSlotsCaptor.capture());
@@ -82,6 +81,6 @@ ParkingSlotProcessorTest {
 		Car carToBeParked = new Car("abc", Car.Color.RED);
 		List<ParkingSlot> expectedParkingSlots = TestUtils.createMultipleFreeParkingLots(10);
 		when(parkingLotAllocationStrategy.getNextAvailableParkingSlot(anyList())).thenReturn(expectedParkingSlots.get(0));
-		parkingLotProcessor.processParking(carToBeParked);
+		parkingSlotManager.processParking(carToBeParked);
 	}
 }

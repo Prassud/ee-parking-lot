@@ -4,15 +4,7 @@ import java.util.Objects;
 
 public class ParkingSlot {
 
-	public int getSlotNumber() {
-		return slotNumber;
-	}
-
 	private int slotNumber;
-
-	public State getState() {
-		return state;
-	}
 
 	private State state;
 
@@ -24,6 +16,15 @@ public class ParkingSlot {
 	public boolean isFree() {
 		return this.state == State.FREE;
 	}
+
+	public State getState() {
+		return state;
+	}
+
+	public int getSlotNumber() {
+		return slotNumber;
+	}
+
 
 	@Override
 	public boolean equals(Object o) {

@@ -25,14 +25,4 @@ public class TicketManagerTest {
 
 		assertEquals(expectedTicket, ticket);
 	}
-
-	@Test
-	public void shouldGetTheCarsMatchingWithColorBasedOnTicket() {
-		ParkingSlot parkingSlot = new ParkingSlot(1, ParkingSlot.State.FREE);
-		Car car = new Car("abc", Car.Color.RED);
-		Ticket expectedTicket = new Ticket(parkingSlot, car);
-		Ticket ticket = ticketManager.issueTicket(parkingSlot, car);
-
-		assertEquals(expectedTicket, ticket);
-	}
 }

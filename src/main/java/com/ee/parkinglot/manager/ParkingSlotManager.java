@@ -1,4 +1,4 @@
-package com.ee.parkinglot.processor;
+package com.ee.parkinglot.manager;
 
 import com.ee.parkinglot.allocation.strategy.ParkingLotAllocationStrategy;
 import com.ee.parkinglot.exception.ParkingLotException;
@@ -13,7 +13,7 @@ import java.util.stream.IntStream;
 
 import static java.util.Objects.isNull;
 
-public class ParkingLotProcessor {
+public class ParkingSlotManager {
 
 	private final List<ParkingSlot> parkingSlots;
 
@@ -21,7 +21,7 @@ public class ParkingLotProcessor {
 
 	private final TicketManager ticketManager;
 
-	public ParkingLotProcessor(ParkingLotAllocationStrategy parkingLotAllocationStrategy, TicketManager ticketManager, int range) {
+	public ParkingSlotManager(ParkingLotAllocationStrategy parkingLotAllocationStrategy, TicketManager ticketManager, int range) {
 		this.parkingLotAllocationStrategy = parkingLotAllocationStrategy;
 		this.ticketManager = ticketManager;
 		this.parkingSlots = IntStream.range(1, range).mapToObj(
