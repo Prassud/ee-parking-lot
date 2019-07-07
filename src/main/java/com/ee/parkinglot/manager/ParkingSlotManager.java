@@ -11,8 +11,7 @@ import com.ee.parkinglot.ticketing.TicketManager;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.Optional;
 
 import static java.util.Objects.isNull;
 
@@ -26,14 +25,11 @@ public class ParkingSlotManager {
 
 	private final TicketManager ticketManager;
 
-	public ParkingSlotManager(ParkingLotAllocationStrategy parkingLotAllocationStrategy, TicketManager ticketManager, int range) {
+	public ParkingSlotManager(ParkingLotAllocationStrategy parkingLotAllocationStrategy,
+	                          TicketManager ticketManager, List<ParkingSlot> parkingSlots) {
 		this.parkingLotAllocationStrategy = parkingLotAllocationStrategy;
 		this.ticketManager = ticketManager;
-		if (range <= 0) {
-			new ParkingLotException("Invalid Range on creating Parking slots");
-		}
-		this.parkingSlots = IntStream.range(1, range).mapToObj(
-				eachIndex -> new ParkingSlot(eachIndex, ParkingSlot.State.FREE)).collect(Collectors.toList());
+		this.parkingSlots = parkingSlots;
 	}
 
 	public Ticket park(Car car) {
@@ -61,5 +57,15 @@ public class ParkingSlotManager {
 
 	public void register(String searchCommandName, AbstractSearchParkingSlot searchCommand) {
 		this.searchCommands.put(searchCommandName, searchCommand);
+	}
+
+	public Car unPark(int slotNumber) {
+		Optional<ParkingSlot> parkingSlot = this.parkingSlots.stream().filter(eachParkingSlot ->
+				eachParkingSlot.getSlotNumber() == slotNumber).findFirst();
+
+		if (!parkingSlot.isPresent()) {
+			throw new ParkingLotException("ParkingSlot NotFound");
+		}
+		return parkingSlot.get().free();
 	}
 }

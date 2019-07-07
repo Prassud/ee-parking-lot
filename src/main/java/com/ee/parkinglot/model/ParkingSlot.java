@@ -48,6 +48,13 @@ public class ParkingSlot {
 		return this.parkedCar.getColor();
 	}
 
+	public Car free() {
+		this.state = State.FREE;
+		Car parkedCar = this.parkedCar;
+		this.setParkedCar(null);
+		return parkedCar;
+	}
+
 	public enum State {ALLOCATED, FREE}
 
 	@Override

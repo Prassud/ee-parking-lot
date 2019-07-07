@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.mockito.Matchers.any;
@@ -37,11 +38,13 @@ public class ParkingSlotManagerTest {
 
 	@Mock
 	private AbstractSearchParkingSlot abstractSearchParkingSlot;
+	private List<ParkingSlot> parkingSlots;
 
 	@Before
 	public void setUp() {
 		initMocks(this);
-		parkingSlotManager = new ParkingSlotManager(parkingLotAllocationStrategy, ticketManager, 10);
+		this.parkingSlots = TestUtils.createMultipleFreeParkingLots(10);
+		parkingSlotManager = new ParkingSlotManager(parkingLotAllocationStrategy, ticketManager, parkingSlots);
 		parkingSlotManager.register("get_by_color", abstractSearchParkingSlot);
 	}
 
@@ -86,9 +89,10 @@ public class ParkingSlotManagerTest {
 
 	@Test
 	public void shouldThrowParkingLotUnAvailableExceptionWhenParkingLotIsUnavailable() {
-		ParkingSlotManager parkingSlotManager = new ParkingSlotManager(parkingLotAllocationStrategy, ticketManager, 1);
-		Car carToBeParked = new Car("abc", Car.Color.RED);
 		List<ParkingSlot> expectedParkingSlots = TestUtils.createMultipleFreeParkingLots(10);
+		ParkingSlotManager parkingSlotManager = new ParkingSlotManager(parkingLotAllocationStrategy, ticketManager, expectedParkingSlots);
+		Car carToBeParked = new Car("abc", Car.Color.RED);
+
 		when(parkingLotAllocationStrategy.getNextAvailableParkingSlot(anyList())).thenReturn(expectedParkingSlots.get(0));
 		try {
 			parkingSlotManager.park(carToBeParked);
@@ -100,9 +104,9 @@ public class ParkingSlotManagerTest {
 
 	@Test
 	public void shouldThrowParkingLotUnAvailableExceptionWhenParkingSLotsIsZero() {
-		ParkingSlotManager parkingSlotManager = new ParkingSlotManager(parkingLotAllocationStrategy, ticketManager, 0);
-		Car carToBeParked = new Car("abc", Car.Color.RED);
 		List<ParkingSlot> expectedParkingSlots = TestUtils.createMultipleFreeParkingLots(10);
+		ParkingSlotManager parkingSlotManager = new ParkingSlotManager(parkingLotAllocationStrategy, ticketManager, expectedParkingSlots);
+		Car carToBeParked = new Car("abc", Car.Color.RED);
 		when(parkingLotAllocationStrategy.getNextAvailableParkingSlot(anyList())).thenReturn(expectedParkingSlots.get(0));
 		try {
 			parkingSlotManager.park(carToBeParked);
@@ -121,7 +125,7 @@ public class ParkingSlotManagerTest {
 		ArgumentCaptor<List> parkingSlots = ArgumentCaptor.forClass(List.class);
 		verify(abstractSearchParkingSlot).search(searchParam.capture(), parkingSlots.capture());
 
-		assertEquals("abc",searchParam.getValue());
+		assertEquals("abc", searchParam.getValue());
 		assertFalse(parkingSlots.getValue().isEmpty());
 		assertEquals(slots, retrievedParkingSlot);
 	}
@@ -131,7 +135,7 @@ public class ParkingSlotManagerTest {
 		when(abstractSearchParkingSlot.search(any(), anyList())).thenReturn(new ArrayList<>());
 
 		try {
-			parkingSlotManager.searchParkingSlot("get_by_colorx", "");
+			parkingSlotManager.searchParkingSlot("get_by_color", "");
 			verify(abstractSearchParkingSlot, never()).search(any(), any());
 		} catch (ParkingLotException ex) {
 			assertEquals("Parking slot not found", ex.getMessage());
@@ -145,5 +149,27 @@ public class ParkingSlotManagerTest {
 		} catch (ParkingLotException exception) {
 			assertEquals("Invalid Search Command", exception.getMessage());
 		}
+	}
+
+	@Test
+	public void shouldUnParkCarAndFreeParkingSlot() {
+		Car carToBeParked = new Car("abc", Car.Color.RED);
+		int slotNumber = 1;
+		this.parkingSlots.get(0).allocatedTo(carToBeParked);
+
+		Car resultCar = parkingSlotManager.unPark(slotNumber);
+
+		assertEquals(carToBeParked, resultCar);
+		assertTrue(this.parkingSlots.get(0).isFree());
+	}
+
+
+	@Test(expected = ParkingLotException.class)
+	public void shouldThrowParkingLotExceptionWhenParkingSlotisNotFound() {
+		Car carToBeParked = new Car("abc", Car.Color.RED);
+		int slotNumber = 12;
+		this.parkingSlots.get(0).allocatedTo(carToBeParked);
+
+		parkingSlotManager.unPark(slotNumber);
 	}
 }
