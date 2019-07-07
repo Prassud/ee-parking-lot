@@ -8,12 +8,12 @@ public class TicketTest {
 
 	@Test
 	public void shouldGetTicketAttributes() {
-		ParkingLot parkingLot = new ParkingLot(10, ParkingLot.State.FREE);
+		ParkingSlot parkingSlot = new ParkingSlot(10, ParkingSlot.State.FREE);
 		Car car = new Car("registration_number", Car.Color.RED);
-		Ticket ticket = new Ticket(parkingLot, car);
+		Ticket ticket = new Ticket(parkingSlot, car);
 
-		assertEquals("registration_number", ticket.getCar().getRegistrationNumber());
-		assertEquals(Car.Color.RED, ticket.getCar().getColor());
-		assertEquals(parkingLot, ticket.getParkingLot());
+		assertEquals("registration_number", ticket.getCarRegistrationNumber());
+		assertEquals(Car.Color.RED, ticket.getCarColor());
+		assertEquals(parkingSlot.getLotNumber(), ticket.getParkingSlotNumber());
 	}
 }

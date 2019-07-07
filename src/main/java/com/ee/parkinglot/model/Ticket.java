@@ -1,19 +1,47 @@
 package com.ee.parkinglot.model;
 
+import java.util.Objects;
+
 public class Ticket {
-	private ParkingLot parkingLot;
-	private Car car;
+	private int parkingSlotNumbe;
 
-	public Ticket(ParkingLot parkingLot, Car car) {
-		this.parkingLot = parkingLot;
-		this.car = car;
+	private String carRegistrationNumber;
+
+	private Car.Color carColor;
+
+	public Ticket(ParkingSlot parkingSlot, Car car) {
+		this.parkingSlotNumbe = parkingSlot.getLotNumber();
+		this.carColor = car.getColor();
 	}
 
-	public Car getCar() {
-		return car;
+	public int getParkingSlotNumber() {
+		return parkingSlotNumbe;
 	}
 
-	public ParkingLot getParkingLot() {
-		return parkingLot;
+	public String getCarRegistrationNumber() {
+		return carRegistrationNumber;
+	}
+
+	public Car.Color getCarColor() {
+		return carColor;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (!(o instanceof Ticket)) {
+			return false;
+		}
+		Ticket ticket = (Ticket) o;
+		return parkingSlotNumbe == ticket.parkingSlotNumbe &&
+				Objects.equals(getCarRegistrationNumber(), ticket.getCarRegistrationNumber()) &&
+				getCarColor() == ticket.getCarColor();
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(parkingSlotNumbe, getCarRegistrationNumber(), getCarColor());
 	}
 }

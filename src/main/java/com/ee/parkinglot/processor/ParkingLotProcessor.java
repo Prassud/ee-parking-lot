@@ -1,27 +1,39 @@
 package com.ee.parkinglot.processor;
 
 import com.ee.parkinglot.allocation.strategy.ParkingLotAllocationStrategy;
-import com.ee.parkinglot.model.ParkingLot;
+import com.ee.parkinglot.exception.ParkingLotException;
+import com.ee.parkinglot.model.Car;
+import com.ee.parkinglot.model.ParkingSlot;
+import com.ee.parkinglot.model.Ticket;
+import com.ee.parkinglot.ticketing.TicketManager;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static java.util.Objects.isNull;
+
 public class ParkingLotProcessor {
 
-	private final List<ParkingLot> parkingLots;
+	private final List<ParkingSlot> parkingSlots;
 
-	private ParkingLotAllocationStrategy parkingLotAllocationStrategy;
+	private final ParkingLotAllocationStrategy parkingLotAllocationStrategy;
 
-	public ParkingLotProcessor(ParkingLotAllocationStrategy parkingLotAllocationStrategy, int range) {
+	private final TicketManager ticketManager;
+
+	public ParkingLotProcessor(ParkingLotAllocationStrategy parkingLotAllocationStrategy, TicketManager ticketManager, int range) {
 		this.parkingLotAllocationStrategy = parkingLotAllocationStrategy;
-		this.parkingLots = IntStream.range(1, range).mapToObj(
-				eachIndex -> new ParkingLot(eachIndex, ParkingLot.State.FREE)).collect(Collectors.toList());
+		this.ticketManager = ticketManager;
+		this.parkingSlots = IntStream.range(1, range).mapToObj(
+				eachIndex -> new ParkingSlot(eachIndex, ParkingSlot.State.FREE)).collect(Collectors.toList());
 	}
 
-	public void park() {
-		ParkingLot parkingLot = parkingLotAllocationStrategy.getNextAvailableParkingSlot(parkingLots);
-		parkingLot.allocated();
+	public Ticket processParking(Car car) {
+		ParkingSlot parkingSlot = parkingLotAllocationStrategy.getNextAvailableParkingSlot(parkingSlots);
+		if (isNull(parkingSlot)) {
+			throw new ParkingLotException("No Free Slot is Available");
+		}
+		parkingSlot.allocated();
+		return ticketManager.issueTicket(parkingSlot, car);
 	}
 }

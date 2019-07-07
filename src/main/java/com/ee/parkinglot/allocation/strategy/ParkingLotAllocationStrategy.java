@@ -1,9 +1,9 @@
 package com.ee.parkinglot.allocation.strategy;
 
-import com.ee.parkinglot.model.ParkingLot;
+import com.ee.parkinglot.model.ParkingSlot;
 
 import java.util.List;
 
 public interface ParkingLotAllocationStrategy {
-	ParkingLot getNextAvailableParkingSlot(List<ParkingLot> capture);
+	ParkingSlot getNextAvailableParkingSlot(List<ParkingSlot> capture);
 }

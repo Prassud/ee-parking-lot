@@ -2,7 +2,7 @@ package com.ee.parkinglot.model;
 
 import java.util.Objects;
 
-public class ParkingLot {
+public class ParkingSlot {
 
 	public int getLotNumber() {
 		return lotNumber;
@@ -16,7 +16,7 @@ public class ParkingLot {
 
 	private State state;
 
-	public ParkingLot(int lotNumber, State state) {
+	public ParkingSlot(int lotNumber, State state) {
 		this.lotNumber = lotNumber;
 		this.state = state;
 	}
@@ -33,7 +33,7 @@ public class ParkingLot {
 		if (o == null || getClass() != o.getClass()) {
 			return false;
 		}
-		ParkingLot that = (ParkingLot) o;
+		ParkingSlot that = (ParkingSlot) o;
 		return getLotNumber() == that.getLotNumber();
 	}
 
