@@ -2,7 +2,6 @@ package com.ee.parkinglot;
 
 import com.ee.parkinglot.command.*;
 import com.ee.parkinglot.exception.ParkingLotException;
-import sun.security.pkcs.ParsingException;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -20,7 +19,7 @@ public class ParkingLotApplication {
 	private void initialize() {
 		this.commands = new HashMap<>();
 
-		this.commands.put(CREATE_COMMAND, new CreateCommand(CREATE_COMMAND));
+		this.commands.put(CREATE_COMMAND, new CreateCommand(CREATE_COMMAND, parkingLotService));
 		this.commands.put(PARK_COMMAND_NAME, new ParkCommand(PARK_COMMAND_NAME));
 		this.commands.put(LEAVE_COMMAND_NAME, new LeaveCommand(LEAVE_COMMAND_NAME));
 		this.commands.put(SEARCH_BY_COLOR, new SearchCommand(SEARCH_BY_COLOR));

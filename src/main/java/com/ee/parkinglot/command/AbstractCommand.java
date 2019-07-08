@@ -1,5 +1,7 @@
 package com.ee.parkinglot.command;
 
+import com.ee.parkinglot.bean.Result;
+
 public abstract class AbstractCommand {
 
 	private String commandName;
@@ -8,5 +10,5 @@ public abstract class AbstractCommand {
 		this.commandName = commandName;
 	}
 
-	public abstract void execute(String[] args);
+	public abstract Result execute(String[] args);
 }

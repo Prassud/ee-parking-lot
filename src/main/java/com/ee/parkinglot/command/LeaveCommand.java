@@ -1,5 +1,7 @@
 package com.ee.parkinglot.command;
 
+import com.ee.parkinglot.bean.Result;
+
 public class LeaveCommand extends AbstractCommand {
 
 	public LeaveCommand(String commandName) {
@@ -7,7 +9,8 @@ public class LeaveCommand extends AbstractCommand {
 	}
 
 	@Override
-	public void execute(String[] args) {
+	public Result execute(String[] args) {
 
+		return null;
 	}
 }

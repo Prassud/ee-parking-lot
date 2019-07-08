@@ -6,24 +6,40 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
+import static org.mockito.MockitoAnnotations.initMocks;
 
-public class ParkingSlotServiceTest {
+public class ParkingLotServiceTest {
 	@Mock
 	private ParkingSlotManager parkingSlotManager;
 
-	private ParkingSlotService parkingSlotService;
+	private ParkingLotService parkingLotService;
 
 	@Before
 	public void setUp() throws Exception {
-		this.parkingSlotService = new ParkingSlotService(parkingSlotManager);
+		initMocks(this);
+		this.parkingLotService = new ParkingLotService(parkingSlotManager);
 	}
 
 	@Test
 	public void shouldInvokeParkingLotMangerOnParkingTheCar() {
 		Car car = new Car("regn-number", Car.Color.WHITE);
-		parkingSlotService.park(car);
+		parkingLotService.park(car);
+
 		verify(parkingSlotManager).park(car);
+	}
+
+	@Test
+	public void shouldInvokeParkingLotMangerOnUnParkingTheCar() {
+		parkingLotService.unPark(4);
+
+		verify(parkingSlotManager).unPark(4);
+	}
+
+	@Test
+	public void shouldInvokeParkingLotMangerOnSearchingSlots() {
+		parkingLotService.search("cmd", "sss");
+
+		verify(parkingSlotManager).searchParkingSlot("cmd", "sss");
 	}
 }
