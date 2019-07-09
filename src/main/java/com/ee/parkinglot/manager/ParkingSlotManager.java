@@ -1,6 +1,7 @@
 package com.ee.parkinglot.manager;
 
 import com.ee.parkinglot.allocation.strategy.ParkingLotAllocationStrategy;
+import com.ee.parkinglot.bean.Status;
 import com.ee.parkinglot.exception.ParkingLotException;
 import com.ee.parkinglot.model.Car;
 import com.ee.parkinglot.model.ParkingSlot;
@@ -12,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static java.util.Objects.isNull;
@@ -72,5 +74,12 @@ public class ParkingSlotManager {
 
 	public void createParkingLot(int slotSize) {
 		IntStream.range(1, slotSize + 1).forEach((eachIndex) -> this.parkingSlots.add(new ParkingSlot(eachIndex, ParkingSlot.State.FREE)));
+	}
+
+	public List<Status> status() {
+		List<ParkingSlot> parkingSlots = this.parkingSlots.stream().filter(ParkingSlot::isAllocated).collect(Collectors.toList());
+		return parkingSlots.stream().map((eahParKingSlot) -> {
+			return new Status(eahParKingSlot.getStatus());
+		}).collect(Collectors.toList());
 	}
 }

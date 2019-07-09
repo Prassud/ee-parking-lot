@@ -1,6 +1,7 @@
 package com.ee.parkinglot.manager;
 
 import com.ee.parkinglot.allocation.strategy.ParkingLotAllocationStrategy;
+import com.ee.parkinglot.bean.Status;
 import com.ee.parkinglot.exception.ParkingLotException;
 import com.ee.parkinglot.model.Car;
 import com.ee.parkinglot.model.ParkingSlot;
@@ -186,5 +187,17 @@ public class ParkingSlotManagerTest {
 		parkingSlotManager.createParkingLot(numberOfSlots);
 		when(parkingLotAllocationStrategy.getNextAvailableParkingSlot(anyList())).thenReturn(new ParkingSlot(10, ParkingSlot.State.FREE));
 		parkingSlotManager.park(new Car("m,jfds", Car.Color.WHITE));
+	}
+
+	@Test
+	public void shouldGetAllocatedParkingSlotStatuses() {
+		Car carToBeParked = new Car("KA-01-HH-1234", Car.Color.WHITE);
+		List<ParkingSlot> expectedParkingSlots = TestUtils.createMultipleFreeParkingLots(10);
+		ParkingSlotManager parkingSlotManager = new ParkingSlotManager(parkingLotAllocationStrategy, ticketManager, expectedParkingSlots);
+		when(parkingLotAllocationStrategy.getNextAvailableParkingSlot(anyList())).thenReturn(expectedParkingSlots.get(0));
+		parkingSlotManager.park(carToBeParked);
+
+		List<Status> parkingSlotStatus = parkingSlotManager.status();
+		assertEquals("1         KA-01-HH-1234  WHITE  ", parkingSlotStatus.get(0).getStatusInfo());
 	}
 }

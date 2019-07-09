@@ -1,6 +1,7 @@
 package com.ee.parkinglot.model;
 
 import java.util.Objects;
+import java.util.stream.IntStream;
 
 public class ParkingSlot {
 
@@ -53,6 +54,23 @@ public class ParkingSlot {
 		Car parkedCar = this.parkedCar;
 		this.setParkedCar(null);
 		return parkedCar;
+	}
+
+	public String getStatus() {
+		String slotNumber = appendSpaces(String.valueOf(this.slotNumber), 10);
+		String registrationNumber = appendSpaces(this.getParkedCarRegistrationNumber(), 15);
+		String color = appendSpaces(getParkedCarColor().name(), 7);
+
+		return new StringBuffer().append(slotNumber).append(registrationNumber).append(color).toString();
+	}
+
+	private String appendSpaces(String string, int stringLength) {
+		int currLen = string.length();
+		int noOfSpacesToAppend = stringLength - currLen;
+		StringBuffer buffer = new StringBuffer(10);
+		buffer.append(string);
+		IntStream.range(0, noOfSpacesToAppend).forEach((eachIndex) -> buffer.append(" "));
+		return buffer.toString();
 	}
 
 	public enum State {ALLOCATED, FREE}

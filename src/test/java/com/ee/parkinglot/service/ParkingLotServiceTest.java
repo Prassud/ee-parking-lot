@@ -1,12 +1,18 @@
 package com.ee.parkinglot.service;
 
+import com.ee.parkinglot.bean.Status;
 import com.ee.parkinglot.manager.ParkingSlotManager;
 import com.ee.parkinglot.model.Car;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class ParkingLotServiceTest {
@@ -48,5 +54,15 @@ public class ParkingLotServiceTest {
 		parkingLotService.createParkingLot(4);
 
 		verify(parkingSlotManager).createParkingLot(4);
+	}
+
+	@Test
+	public void shouldInvokeParkingLotMangerToGetParkingLotStatus() {
+		ArrayList<Status> expectedStatusList = new ArrayList<>();
+		when(parkingSlotManager.status()).thenReturn(expectedStatusList);
+		List<Status> statuses = parkingLotService.status();
+
+		verify(parkingSlotManager).status();
+		assertEquals(expectedStatusList,statuses);
 	}
 }

@@ -1,5 +1,6 @@
 package com.ee.parkinglot.service;
 
+import com.ee.parkinglot.bean.Status;
 import com.ee.parkinglot.manager.ParkingSlotManager;
 import com.ee.parkinglot.model.Car;
 import com.ee.parkinglot.model.ParkingSlot;
@@ -28,5 +29,9 @@ public class ParkingLotService {
 
 	public void createParkingLot(int size) {
 		parkingSlotManager.createParkingLot(size);
+	}
+
+	public List<Status> status() {
+		return parkingSlotManager.status();
 	}
 }
