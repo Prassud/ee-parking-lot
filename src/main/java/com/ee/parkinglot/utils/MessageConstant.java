@@ -6,7 +6,7 @@ public interface MessageConstant {
 	String STATUS_COMMAND_NAME = "status";
 	String SEARCH_BY_REGISTER_NUMBER = "registration_numbers_for_cars_with_colour";
 	String SEARCH_BY_COLOR_FOR_SN = "slot_numbers_for_cars_with_colour";
-	String SEARCH_BY_COLOR_FOR_RN = "slot_number_for_registration_number";
+	String SEARCH_BY_RN_FOR_SN = "slot_number_for_registration_number";
 	String CREATE_COMMAND = "create_parking_lot";
 
 	String GET_SLOT_BY_COLOR = "GET_SLOT_BY_COLOR";

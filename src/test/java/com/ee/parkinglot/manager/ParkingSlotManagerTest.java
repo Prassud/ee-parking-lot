@@ -6,6 +6,7 @@ import com.ee.parkinglot.model.Car;
 import com.ee.parkinglot.model.ParkingSlot;
 import com.ee.parkinglot.model.Ticket;
 import com.ee.parkinglot.search.AbstractSearchParkingSlot;
+import com.ee.parkinglot.service.ParkingLotService;
 import com.ee.parkinglot.ticketing.TicketManager;
 import com.ee.parkinglot.utils.TestUtils;
 import org.junit.Before;
@@ -138,7 +139,7 @@ public class ParkingSlotManagerTest {
 			parkingSlotManager.searchParkingSlot("get_by_color", "");
 			verify(abstractSearchParkingSlot, never()).search(any(), any());
 		} catch (ParkingLotException ex) {
-			assertEquals("Parking slot not found", ex.getMessage());
+			assertEquals("Not found", ex.getMessage());
 		}
 	}
 
@@ -171,5 +172,19 @@ public class ParkingSlotManagerTest {
 		this.parkingSlots.get(0).allocatedTo(carToBeParked);
 
 		parkingSlotManager.unPark(slotNumber);
+	}
+
+	@Test
+	public void shouldCreateParkingSlotsWithSpecifiedSize() {
+		int numberOfSlots = 12;
+		ParkingSlotManager parkingSlotManager = new ParkingSlotManager(parkingLotAllocationStrategy, ticketManager, new ArrayList<>());
+		try {
+			parkingSlotManager.park(null);
+		} catch (ParkingLotException ex) {
+			assertEquals("Sorry, parking lot is full", ex.getMessage());
+		}
+		parkingSlotManager.createParkingLot(numberOfSlots);
+		when(parkingLotAllocationStrategy.getNextAvailableParkingSlot(anyList())).thenReturn(new ParkingSlot(10, ParkingSlot.State.FREE));
+		parkingSlotManager.park(new Car("m,jfds", Car.Color.WHITE));
 	}
 }

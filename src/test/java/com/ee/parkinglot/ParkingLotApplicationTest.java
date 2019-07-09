@@ -40,7 +40,10 @@ public class ParkingLotApplicationTest {
 	private StatusCommand statusCommand;
 
 	@Mock
-	private SearchSNByColorCommand searchSNByColorCommand;
+	private SearchRNByColorCommand searchRNByColorCommand;
+
+	@Mock
+	private SearchSNByRNCommand searchSNByRNCommand;
 
 	@Mock
 	private SearchSNByColorCommand searchSNByColorCommand1;
@@ -67,28 +70,32 @@ public class ParkingLotApplicationTest {
 		PowerMockito.whenNew(CreateCommand.class).withArguments("create_parking_lot", parkingLotService).thenReturn(createCommand);
 		PowerMockito.whenNew(ParkCommand.class).withArguments("park", parkingLotService).thenReturn(parkCommand);
 		PowerMockito.whenNew(LeaveCommand.class).withArguments("leave", parkingLotService).thenReturn(leaveCommand);
-		PowerMockito.whenNew(SearchSNByColorCommand.class).withArguments("registration_numbers_for_cars_with_colour", parkingLotService).thenReturn(searchSNByColorCommand);
+		PowerMockito.whenNew(SearchRNByColorCommand.class).withArguments("registration_numbers_for_cars_with_colour", parkingLotService).thenReturn(searchRNByColorCommand);
 		PowerMockito.whenNew(SearchSNByColorCommand.class).withArguments("slot_numbers_for_cars_with_colour", parkingLotService).thenReturn(searchSNByColorCommand1);
+		PowerMockito.whenNew(SearchSNByRNCommand.class).withArguments("slot_number_for_registration_number", parkingLotService).thenReturn(searchSNByRNCommand);
 		PowerMockito.whenNew(StatusCommand.class).withArguments("status", parkingLotService).thenReturn(statusCommand);
 	}
 
 	private void verifyCommands() {
 		ArgumentCaptor<String[]> parkCommandCaptor = ArgumentCaptor.forClass(String[].class);
 		ArgumentCaptor<String[]> leaveCommandCaptor = ArgumentCaptor.forClass(String[].class);
-		ArgumentCaptor<String[]> searchCommandCaptor = ArgumentCaptor.forClass(String[].class);
-		ArgumentCaptor<String[]> searchCommand1Captor = ArgumentCaptor.forClass(String[].class);
+		ArgumentCaptor<String[]> searchRNByColorCaptor = ArgumentCaptor.forClass(String[].class);
+		ArgumentCaptor<String[]> searchSNByColorCaptor = ArgumentCaptor.forClass(String[].class);
+		ArgumentCaptor<String[]> searchSNByRNCaptor = ArgumentCaptor.forClass(String[].class);
 		ArgumentCaptor<String[]> statusCommandCaptor = ArgumentCaptor.forClass(String[].class);
 
 		verify(parkCommand).execute(parkCommandCaptor.capture());
 		verify(leaveCommand).execute(leaveCommandCaptor.capture());
-		verify(searchSNByColorCommand).execute(searchCommandCaptor.capture());
-		verify(searchSNByColorCommand1).execute(searchCommand1Captor.capture());
+		verify(searchRNByColorCommand).execute(searchRNByColorCaptor.capture());
+		verify(searchSNByColorCommand1).execute(searchSNByColorCaptor.capture());
+		verify(searchSNByRNCommand).execute(searchSNByRNCaptor.capture());
 		verify(statusCommand).execute(statusCommandCaptor.capture());
 
 		assertArrayEquals(new String[] {"park", "KA-01-HH-1234", "White"}, parkCommandCaptor.getValue());
 		assertArrayEquals(new String[] {"leave", "4"}, leaveCommandCaptor.getValue());
-		assertArrayEquals(new String[] {"registration_numbers_for_cars_with_colour", "White"}, searchCommandCaptor.getValue());
-		assertArrayEquals(new String[] {"slot_numbers_for_cars_with_colour", "White"}, searchCommand1Captor.getValue());
+		assertArrayEquals(new String[] {"registration_numbers_for_cars_with_colour", "White"}, searchRNByColorCaptor.getValue());
+		assertArrayEquals(new String[] {"slot_numbers_for_cars_with_colour", "White"}, searchSNByColorCaptor.getValue());
+		assertArrayEquals(new String[] {"slot_number_for_registration_number", "MH-04-AY-1111"}, searchSNByRNCaptor.getValue());
 		assertArrayEquals(new String[] {"status"}, statusCommandCaptor.getValue());
 	}
 

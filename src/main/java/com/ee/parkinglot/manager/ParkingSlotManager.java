@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 import static java.util.Objects.isNull;
 
@@ -35,7 +36,7 @@ public class ParkingSlotManager {
 	public Ticket park(Car car) {
 		ParkingSlot parkingSlot = parkingLotAllocationStrategy.getNextAvailableParkingSlot(parkingSlots);
 		if (isNull(parkingSlot)) {
-			throw new ParkingLotException("No Free Slot is Available");
+			throw new ParkingLotException("Sorry, parking lot is full");
 		}
 		parkingSlot.allocatedTo(car);
 		return ticketManager.issueTicket(parkingSlot, car);
@@ -49,7 +50,7 @@ public class ParkingSlotManager {
 		List<ParkingSlot> parkingSlots = searchCommand.search(searchParam, this.parkingSlots);
 
 		if (parkingSlots.isEmpty()) {
-			throw new ParkingLotException("Parking slot not found");
+			throw new ParkingLotException("Not found");
 		}
 
 		return parkingSlots;
@@ -67,5 +68,9 @@ public class ParkingSlotManager {
 			throw new ParkingLotException("ParkingSlot NotFound");
 		}
 		return parkingSlot.get().free();
+	}
+
+	public void createParkingLot(int slotSize) {
+		IntStream.range(1, slotSize + 1).forEach((eachIndex) -> this.parkingSlots.add(new ParkingSlot(eachIndex, ParkingSlot.State.FREE)));
 	}
 }

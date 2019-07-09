@@ -42,4 +42,11 @@ public class ParkingLotServiceTest {
 
 		verify(parkingSlotManager).searchParkingSlot("cmd", "sss");
 	}
+
+	@Test
+	public void shouldInvokeParkingLotMangerToCreateParkingSlots() {
+		parkingLotService.createParkingLot(4);
+
+		verify(parkingSlotManager).createParkingLot(4);
+	}
 }

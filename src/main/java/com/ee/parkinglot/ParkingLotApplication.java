@@ -27,7 +27,8 @@ public class ParkingLotApplication {
 		this.commands.put(PARK_COMMAND_NAME, new ParkCommand(PARK_COMMAND_NAME, parkingLotService));
 		this.commands.put(LEAVE_COMMAND_NAME, new LeaveCommand(LEAVE_COMMAND_NAME, parkingLotService));
 		this.commands.put(SEARCH_BY_COLOR_FOR_SN, new SearchSNByColorCommand(SEARCH_BY_COLOR_FOR_SN, parkingLotService));
-		this.commands.put(SEARCH_BY_REGISTER_NUMBER, new SearchSNByColorCommand(SEARCH_BY_REGISTER_NUMBER, parkingLotService));
+		this.commands.put(SEARCH_BY_REGISTER_NUMBER, new SearchRNByColorCommand(SEARCH_BY_REGISTER_NUMBER, parkingLotService));
+		this.commands.put(SEARCH_BY_RN_FOR_SN, new SearchSNByRNCommand(SEARCH_BY_RN_FOR_SN, parkingLotService));
 		this.commands.put(STATUS_COMMAND_NAME, new StatusCommand(STATUS_COMMAND_NAME, parkingLotService));
 	}
 

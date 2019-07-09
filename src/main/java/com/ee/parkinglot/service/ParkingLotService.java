@@ -27,6 +27,6 @@ public class ParkingLotService {
 	}
 
 	public void createParkingLot(int size) {
-
+		parkingSlotManager.createParkingLot(size);
 	}
 }

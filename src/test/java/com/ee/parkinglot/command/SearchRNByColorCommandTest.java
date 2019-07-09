@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.ee.parkinglot.utils.MessageConstant.SEARCH_BY_COLOR_FOR_SN;
-import static com.ee.parkinglot.utils.MessageConstant.SEARCH_BY_REGISTER_NUMBER;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
@@ -29,7 +28,7 @@ public class SearchRNByColorCommandTest {
 	@Before
 	public void setUp() {
 		initMocks(this);
-		this.searchRNByColorCommand = new SearchRNByColorCommand(MessageConstant.SEARCH_BY_COLOR_FOR_RN, parkingLotService);
+		this.searchRNByColorCommand = new SearchRNByColorCommand(MessageConstant.SEARCH_BY_RN_FOR_SN, parkingLotService);
 	}
 
 	@Test
