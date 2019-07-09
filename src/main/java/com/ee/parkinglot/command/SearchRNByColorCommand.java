@@ -18,7 +18,7 @@ public class SearchRNByColorCommand extends AbstractCommand {
 	@Override
 	public Result execute(String[] args) {
 		validateInputParamLength(args, 2);
-		Car.Color color = Car.Color.valueOf(args[1].toUpperCase());
+		Car.Color color = Car.Color.valueOf(args[1]);
 		List<ParkingSlot> parkingSlots;
 		try {
 			parkingSlots = parkingLotService.search(MessageConstant.GET_SLOT_BY_COLOR, color);

@@ -29,7 +29,7 @@ public class ParkingLotServiceTest {
 
 	@Test
 	public void shouldInvokeParkingLotMangerOnParkingTheCar() {
-		Car car = new Car("regn-number", Car.Color.WHITE);
+		Car car = new Car("regn-number", Car.Color.White);
 		parkingLotService.park(car);
 
 		verify(parkingSlotManager).park(car);

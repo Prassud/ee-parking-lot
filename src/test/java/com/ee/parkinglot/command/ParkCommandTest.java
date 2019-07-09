@@ -34,7 +34,7 @@ public class ParkCommandTest {
 		String[] inputParams = new String[] {"park", "KA-01-P-333", "White"};
 		ArgumentCaptor<Car> captor = ArgumentCaptor.forClass(Car.class);
 		ParkingSlot slot = new ParkingSlot(1, ParkingSlot.State.FREE);
-		Car car = new Car("", Car.Color.WHITE);
+		Car car = new Car("", Car.Color.White);
 		Ticket ticket = new Ticket(slot, car);
 		when(parkingLotService.park(any())).thenReturn(ticket);
 

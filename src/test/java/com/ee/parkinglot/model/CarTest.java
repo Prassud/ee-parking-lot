@@ -11,16 +11,16 @@ public class CarTest {
 
 	@Before
 	public void setUp() throws Exception {
-		car = new Car("registration_number", Car.Color.WHITE);
+		car = new Car("registration_number", Car.Color.White);
 	}
 
 	@Test
 	public void shouldReturnCarDetailsForACarAsExpected() {
 		assertEquals("registration_number", car.getRegistrationNumber());
-		assertEquals(Car.Color.WHITE, car.getColor());
+		assertEquals(Car.Color.White, car.getColor());
 
-		car = new Car("registration_number2", Car.Color.RED);
+		car = new Car("registration_number2", Car.Color.Red);
 		assertEquals("registration_number2", car.getRegistrationNumber());
-		assertEquals(Car.Color.RED, car.getColor());
+		assertEquals(Car.Color.Red, car.getColor());
 	}
 }

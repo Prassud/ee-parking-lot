@@ -36,7 +36,7 @@ public class SearchSNByRNCommandTest {
 		String[] inputParams = new String[] {"slot_number_for_registration_number", "MH-04-AY-1111"};
 		List<ParkingSlot> parkingSlots = new ArrayList<>();
 		ParkingSlot slot = new ParkingSlot(1, ParkingSlot.State.FREE);
-		slot.allocatedTo(new Car("jjjj", Car.Color.WHITE));
+		slot.allocatedTo(new Car("jjjj", Car.Color.White));
 		parkingSlots.add(slot);
 		parkingSlots.add(slot);
 		when(parkingLotService.search(any(), any())).thenReturn(parkingSlots);

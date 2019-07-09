@@ -34,12 +34,12 @@ public class StatusCommandTest {
 	public void shouldReturnsStausInfoWithHeader() {
 		String[] inputParams = new String[] {"status"};
 		List<Status> statuses = new ArrayList<Status>(10);
-		statuses.add(new Status("1         KA-01-HH-1234  WHITE  "));
+		statuses.add(new Status("1         KA-01-HH-1234  White  "));
 		when(parkingLotService.status()).thenReturn(statuses);
 
 		Result result = statusCommand.execute(inputParams);
 
-		assertEquals("Slot No. Registration No Colour\n1         KA-01-HH-1234  WHITE  ", result.getMessage());
+		assertEquals("Slot No. Registration No Colour\n1         KA-01-HH-1234  White  ", result.getMessage());
 		verify(parkingLotService).status();
 	}
 

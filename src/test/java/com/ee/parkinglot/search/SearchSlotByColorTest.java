@@ -24,27 +24,27 @@ public class SearchSlotByColorTest {
 
 	@Test
 	public void shouldGetTheParkingSlotDetailsBasedOnCarColor() {
-		Car carToBeParked = new Car("abc", Car.Color.RED);
+		Car carToBeParked = new Car("abc", Car.Color.Red);
 		List<ParkingSlot> expectedParkingSlots = TestUtils.createMultipleFreeParkingLots(10);
 		ParkingSlot allocatedSlot1 = expectedParkingSlots.get(0);
 		ParkingSlot allocatedSlot2 = expectedParkingSlots.get(1);
 		allocatedSlot1.allocatedTo(carToBeParked);
 		allocatedSlot2.allocatedTo(carToBeParked);
 
-		List<ParkingSlot> slots = searchSlotByColor.search(Car.Color.RED, expectedParkingSlots);
+		List<ParkingSlot> slots = searchSlotByColor.search(Car.Color.Red, expectedParkingSlots);
 
 		assertEquals(Stream.of(allocatedSlot1, allocatedSlot2).collect(Collectors.toList()), slots);
 	}
 
 	@Test
 	public void shouldReturnParkingSlotListAsEmpty() {
-		Car carToBeParked = new Car("abc", Car.Color.RED);
+		Car carToBeParked = new Car("abc", Car.Color.Red);
 		List<ParkingSlot> expectedParkingSlots = TestUtils.createMultipleFreeParkingLots(10);
 		ParkingSlot allocatedSlot1 = expectedParkingSlots.get(0);
 		allocatedSlot1.allocatedTo(carToBeParked);
 		ParkingSlot allocatedSlot2 = expectedParkingSlots.get(1);
 		allocatedSlot2.allocatedTo(carToBeParked);
-		List<ParkingSlot> slots = searchSlotByColor.search(Car.Color.WHITE, expectedParkingSlots);
+		List<ParkingSlot> slots = searchSlotByColor.search(Car.Color.White, expectedParkingSlots);
 
 		assertTrue(slots.isEmpty());
 	}
@@ -53,7 +53,7 @@ public class SearchSlotByColorTest {
 	public void shouldReturnParkingSlotListAsEmptyWhenNoParkingSlotIsAllocated() {
 		List<ParkingSlot> expectedParkingSlots = TestUtils.createMultipleFreeParkingLots(10);
 
-		List<ParkingSlot> slots = searchSlotByColor.search(Car.Color.WHITE, expectedParkingSlots);
+		List<ParkingSlot> slots = searchSlotByColor.search(Car.Color.White, expectedParkingSlots);
 
 		assertTrue(slots.isEmpty());
 	}

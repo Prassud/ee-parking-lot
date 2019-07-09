@@ -19,7 +19,7 @@ public class ParkingSlotTest {
 	@Test
 	public void shouldSetParkingLotStateAsAllocated() {
 		int lotNumber = 10;
-		Car allocatedCar = new Car("abc", Car.Color.WHITE);
+		Car allocatedCar = new Car("abc", Car.Color.White);
 		ParkingSlot parkingSlot = new ParkingSlot(lotNumber, ParkingSlot.State.FREE);
 
 		parkingSlot.allocatedTo(allocatedCar);

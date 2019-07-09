@@ -37,7 +37,7 @@ public class SearchSNByColorCommandTest {
 		String[] inputParams = new String[] {"slot_numbers_for_cars_with_colour", "White"};
 		List<ParkingSlot> parkingSlots = new ArrayList<>();
 		ParkingSlot slot = new ParkingSlot(1, ParkingSlot.State.FREE);
-		slot.allocatedTo(new Car("jjjj", Car.Color.WHITE));
+		slot.allocatedTo(new Car("jjjj", Car.Color.White));
 		parkingSlots.add(slot);
 		parkingSlots.add(slot);
 		when(parkingLotService.search(any(), any())).thenReturn(parkingSlots);
@@ -45,7 +45,7 @@ public class SearchSNByColorCommandTest {
 		Result result = searchSNByColorCommand.execute(inputParams);
 
 		assertEquals("1,1", result.getMessage());
-		verify(parkingLotService).search(GET_SLOT_BY_COLOR, Car.Color.WHITE);
+		verify(parkingLotService).search(GET_SLOT_BY_COLOR, Car.Color.White);
 	}
 
 	@Test

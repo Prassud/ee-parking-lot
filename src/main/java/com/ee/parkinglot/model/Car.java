@@ -19,6 +19,6 @@ public class Car {
 	}
 
 	public enum Color {
-		RED, WHITE
+		Red, White, Black, Blue
 	}
 }

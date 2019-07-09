@@ -1,5 +1,6 @@
 package com.ee.parkinglot.io;
 
+import com.ee.parkinglot.bean.Result;
 import com.ee.parkinglot.command.AbstractCommand;
 import com.ee.parkinglot.exception.ParkingLotException;
 
@@ -20,7 +21,8 @@ public abstract class AbstractInputProcessor {
 		if (isNull(command)) {
 			throw new ParkingLotException("Invalid Command " + inputParms[0]);
 		}
-		command.execute(inputParms);
+		Result result = command.execute(inputParms);
+		System.out.println(result.getMessage());
 	}
 
 	public abstract void execute(String[] args) throws IOException;

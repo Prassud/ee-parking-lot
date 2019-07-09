@@ -19,7 +19,7 @@ public class TicketManagerTest {
 	@Test
 	public void shouldIssueTicket() {
 		ParkingSlot parkingSlot = new ParkingSlot(1, ParkingSlot.State.FREE);
-		Car car = new Car("abc", Car.Color.RED);
+		Car car = new Car("abc", Car.Color.Red);
 		Ticket expectedTicket = new Ticket(parkingSlot, car);
 		Ticket ticket = ticketManager.issueTicket(parkingSlot, car);
 

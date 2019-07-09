@@ -73,6 +73,9 @@ public class ParkingSlotManager {
 	}
 
 	public void createParkingLot(int slotSize) {
+		if (parkingSlots.size() > 0) {
+			throw new ParkingLotException("Parking lot is already creaed");
+		}
 		IntStream.range(1, slotSize + 1).forEach((eachIndex) -> this.parkingSlots.add(new ParkingSlot(eachIndex, ParkingSlot.State.FREE)));
 	}
 

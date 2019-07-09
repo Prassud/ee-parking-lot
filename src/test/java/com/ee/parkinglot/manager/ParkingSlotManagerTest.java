@@ -7,7 +7,6 @@ import com.ee.parkinglot.model.Car;
 import com.ee.parkinglot.model.ParkingSlot;
 import com.ee.parkinglot.model.Ticket;
 import com.ee.parkinglot.search.AbstractSearchParkingSlot;
-import com.ee.parkinglot.service.ParkingLotService;
 import com.ee.parkinglot.ticketing.TicketManager;
 import com.ee.parkinglot.utils.TestUtils;
 import org.junit.Before;
@@ -53,7 +52,7 @@ public class ParkingSlotManagerTest {
 	@Test
 	public void shouldCallParkingLotAllocationStrategyToGetNextAvailableTicket() {
 		List<ParkingSlot> expectedParkingSlots = TestUtils.createMultipleFreeParkingLots(10);
-		Car carToBeParked = new Car("abc", Car.Color.RED);
+		Car carToBeParked = new Car("abc", Car.Color.Red);
 		Ticket expectedTicket = new Ticket(expectedParkingSlots.get(0), carToBeParked);
 		when(parkingLotAllocationStrategy.getNextAvailableParkingSlot(anyList())).thenReturn(expectedParkingSlots.get(0));
 		when(ticketManager.issueTicket(expectedParkingSlots.get(0), carToBeParked)).thenReturn(expectedTicket);
@@ -77,7 +76,7 @@ public class ParkingSlotManagerTest {
 
 	@Test
 	public void shouldCreateTicketUsingTicketManager() {
-		Car carToBeParked = new Car("abc", Car.Color.RED);
+		Car carToBeParked = new Car("abc", Car.Color.Red);
 		List<ParkingSlot> expectedParkingSlots = TestUtils.createMultipleFreeParkingLots(10);
 		when(parkingLotAllocationStrategy.getNextAvailableParkingSlot(anyList())).thenReturn(expectedParkingSlots.get(0));
 		parkingSlotManager.park(carToBeParked);
@@ -93,7 +92,7 @@ public class ParkingSlotManagerTest {
 	public void shouldThrowParkingLotUnAvailableExceptionWhenParkingLotIsUnavailable() {
 		List<ParkingSlot> expectedParkingSlots = TestUtils.createMultipleFreeParkingLots(10);
 		ParkingSlotManager parkingSlotManager = new ParkingSlotManager(parkingLotAllocationStrategy, ticketManager, expectedParkingSlots);
-		Car carToBeParked = new Car("abc", Car.Color.RED);
+		Car carToBeParked = new Car("abc", Car.Color.Red);
 
 		when(parkingLotAllocationStrategy.getNextAvailableParkingSlot(anyList())).thenReturn(expectedParkingSlots.get(0));
 		try {
@@ -108,7 +107,7 @@ public class ParkingSlotManagerTest {
 	public void shouldThrowParkingLotUnAvailableExceptionWhenParkingSLotsIsZero() {
 		List<ParkingSlot> expectedParkingSlots = TestUtils.createMultipleFreeParkingLots(10);
 		ParkingSlotManager parkingSlotManager = new ParkingSlotManager(parkingLotAllocationStrategy, ticketManager, expectedParkingSlots);
-		Car carToBeParked = new Car("abc", Car.Color.RED);
+		Car carToBeParked = new Car("abc", Car.Color.Red);
 		when(parkingLotAllocationStrategy.getNextAvailableParkingSlot(anyList())).thenReturn(expectedParkingSlots.get(0));
 		try {
 			parkingSlotManager.park(carToBeParked);
@@ -155,7 +154,7 @@ public class ParkingSlotManagerTest {
 
 	@Test
 	public void shouldUnParkCarAndFreeParkingSlot() {
-		Car carToBeParked = new Car("abc", Car.Color.RED);
+		Car carToBeParked = new Car("abc", Car.Color.Red);
 		int slotNumber = 1;
 		this.parkingSlots.get(0).allocatedTo(carToBeParked);
 
@@ -168,7 +167,7 @@ public class ParkingSlotManagerTest {
 
 	@Test(expected = ParkingLotException.class)
 	public void shouldThrowParkingLotExceptionWhenParkingSlotisNotFound() {
-		Car carToBeParked = new Car("abc", Car.Color.RED);
+		Car carToBeParked = new Car("abc", Car.Color.Red);
 		int slotNumber = 12;
 		this.parkingSlots.get(0).allocatedTo(carToBeParked);
 
@@ -186,18 +185,32 @@ public class ParkingSlotManagerTest {
 		}
 		parkingSlotManager.createParkingLot(numberOfSlots);
 		when(parkingLotAllocationStrategy.getNextAvailableParkingSlot(anyList())).thenReturn(new ParkingSlot(10, ParkingSlot.State.FREE));
-		parkingSlotManager.park(new Car("m,jfds", Car.Color.WHITE));
+		parkingSlotManager.park(new Car("m,jfds", Car.Color.White));
+	}
+
+
+	@Test
+	public void shouldThrowPLEOnCreateParkingLotWhenParkignLotIsAlreadyCreated() {
+		int numberOfSlots = 12;
+		ParkingSlotManager parkingSlotManager = new ParkingSlotManager(parkingLotAllocationStrategy, ticketManager, new ArrayList<>());
+
+		try {
+			parkingSlotManager.createParkingLot(numberOfSlots);
+			parkingSlotManager.createParkingLot(numberOfSlots);
+		} catch (ParkingLotException ex) {
+			assertEquals("Parking lot is already creaed", ex.getMessage());
+		}
 	}
 
 	@Test
 	public void shouldGetAllocatedParkingSlotStatuses() {
-		Car carToBeParked = new Car("KA-01-HH-1234", Car.Color.WHITE);
+		Car carToBeParked = new Car("KA-01-HH-1234", Car.Color.White);
 		List<ParkingSlot> expectedParkingSlots = TestUtils.createMultipleFreeParkingLots(10);
 		ParkingSlotManager parkingSlotManager = new ParkingSlotManager(parkingLotAllocationStrategy, ticketManager, expectedParkingSlots);
 		when(parkingLotAllocationStrategy.getNextAvailableParkingSlot(anyList())).thenReturn(expectedParkingSlots.get(0));
 		parkingSlotManager.park(carToBeParked);
 
 		List<Status> parkingSlotStatus = parkingSlotManager.status();
-		assertEquals("1         KA-01-HH-1234  WHITE  ", parkingSlotStatus.get(0).getStatusInfo());
+		assertEquals("1         KA-01-HH-1234  White  ", parkingSlotStatus.get(0).getStatusInfo());
 	}
 }

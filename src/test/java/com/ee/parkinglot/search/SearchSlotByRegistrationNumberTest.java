@@ -24,7 +24,7 @@ public class SearchSlotByRegistrationNumberTest {
 
 	@Test
 	public void shouldGetTheParkingSlotDetailsBasedOnRegistrationNumber() {
-		Car carToBeParked = new Car("abc", Car.Color.RED);
+		Car carToBeParked = new Car("abc", Car.Color.Red);
 		List<ParkingSlot> expectedParkingSlots = TestUtils.createMultipleFreeParkingLots(10);
 		ParkingSlot allocatedSlot1 = expectedParkingSlots.get(0);
 		allocatedSlot1.allocatedTo(carToBeParked);
@@ -36,7 +36,7 @@ public class SearchSlotByRegistrationNumberTest {
 
 	@Test
 	public void shouldReturnParkingSlotListAsEmpty() {
-		Car carToBeParked = new Car("abc", Car.Color.RED);
+		Car carToBeParked = new Car("abc", Car.Color.Red);
 		List<ParkingSlot> expectedParkingSlots = TestUtils.createMultipleFreeParkingLots(10);
 		ParkingSlot allocatedSlot1 = expectedParkingSlots.get(0);
 		allocatedSlot1.allocatedTo(carToBeParked);
