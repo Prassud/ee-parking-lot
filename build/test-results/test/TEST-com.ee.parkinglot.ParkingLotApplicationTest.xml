@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.ee.parkinglot.ParkingLotApplicationTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2019-07-09T18:12:35" hostname="in-Prasanns-2.local" time="0.273">
+  <properties/>
+  <testcase name="shouldThrowIllegalArgumentExceptionWhenInputProcessingTypeIsInvalid" classname="com.ee.parkinglot.ParkingLotApplicationTest" time="0.239"/>
+  <testcase name="shouldExecutesInputProcessor" classname="com.ee.parkinglot.ParkingLotApplicationTest" time="0.018"/>
+  <testcase name="shouldExecutesConsoleInputProcessor" classname="com.ee.parkinglot.ParkingLotApplicationTest" time="0.008"/>
+  <testcase name="shouldThrowIllegalArgumentExceptionWhenArgsLengthIsNotEqualToOne" classname="com.ee.parkinglot.ParkingLotApplicationTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -32,7 +32,7 @@ public class SearchSNByRNCommandTest {
 	}
 
 	@Test
-	public void shouldSearchParkingLotAndReturnRegistrationNumberNumbersInCommaSeparated() {
+	public void shouldSearchParkingSlotServiceFotSlotNumberWIthRegistrationNumber() {
 		String[] inputParams = new String[] {"slot_number_for_registration_number", "MH-04-AY-1111"};
 		List<ParkingSlot> parkingSlots = new ArrayList<>();
 		ParkingSlot slot = new ParkingSlot(1, ParkingSlot.State.FREE);
@@ -43,8 +43,8 @@ public class SearchSNByRNCommandTest {
 
 		Result result = searchSNByRNCommand.execute(inputParams);
 
-		assertEquals("1", result.getMessage());
-		verify(parkingLotService).search(GET_SLOT_BY_RN, "");
+		assertEquals("jjjj,jjjj", result.getMessage());
+		verify(parkingLotService).search(GET_SLOT_BY_RN, "MH-04-AY-1111");
 	}
 
 	@Test
@@ -66,7 +66,5 @@ public class SearchSNByRNCommandTest {
 		} catch (ParkingLotException exception) {
 			assertEquals("Invalid input param size", exception.getMessage());
 		}
-
-		verify(parkingLotService, never()).unPark(any());
 	}
 }

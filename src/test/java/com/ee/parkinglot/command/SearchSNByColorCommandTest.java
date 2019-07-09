@@ -4,12 +4,9 @@ import com.ee.parkinglot.bean.Result;
 import com.ee.parkinglot.exception.ParkingLotException;
 import com.ee.parkinglot.model.Car;
 import com.ee.parkinglot.model.ParkingSlot;
-import com.ee.parkinglot.model.Ticket;
 import com.ee.parkinglot.service.ParkingLotService;
-import com.ee.parkinglot.utils.MessageConstant;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 
 import java.util.ArrayList;
@@ -17,9 +14,10 @@ import java.util.List;
 
 import static com.ee.parkinglot.utils.MessageConstant.GET_SLOT_BY_COLOR;
 import static com.ee.parkinglot.utils.MessageConstant.SEARCH_BY_COLOR_FOR_SN;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class SearchSNByColorCommandTest {
@@ -46,7 +44,7 @@ public class SearchSNByColorCommandTest {
 
 		Result result = searchSNByColorCommand.execute(inputParams);
 
-		assertEquals("1,Q", result.getMessage());
+		assertEquals("1,1", result.getMessage());
 		verify(parkingLotService).search(GET_SLOT_BY_COLOR, Car.Color.WHITE);
 	}
 
@@ -58,18 +56,5 @@ public class SearchSNByColorCommandTest {
 		} catch (ParkingLotException exception) {
 			assertEquals("Invalid input param size", exception.getMessage());
 		}
-
-		verify(parkingLotService, never()).unPark(any());
-	}
-
-	@Test
-	public void shouldHandleparkingLotExceptionAndReturnResultWithErrorMessage() {
-		String[] inputParams = new String[] {"slot_numbers_for_cars_with_colour", "White"};
-		doThrow(new ParkingLotException("blah blah")).when(parkingLotService).search(any(), any());
-
-		Result result = searchSNByColorCommand.execute(inputParams);
-
-		assertEquals("blah blah", result.getMessage());
-		assertFalse(result.isSuccess());
 	}
 }

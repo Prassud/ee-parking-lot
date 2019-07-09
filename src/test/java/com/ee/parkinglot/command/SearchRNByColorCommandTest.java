@@ -13,10 +13,11 @@ import org.mockito.Mock;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.ee.parkinglot.utils.MessageConstant.SEARCH_BY_COLOR_FOR_SN;
-import static org.junit.Assert.*;
+import static com.ee.parkinglot.utils.MessageConstant.GET_SLOT_BY_COLOR;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class SearchRNByColorCommandTest {
@@ -33,7 +34,7 @@ public class SearchRNByColorCommandTest {
 
 	@Test
 	public void shouldSearchParkingLotAndReturnRegistrationNumberNumbersInCommaSeparated() {
-		String[] inputParams = new String[] {"slot_number_for_registration_number", "MH-04-AY-1111"};
+		String[] inputParams = new String[] {"slot_number_for_registration_number", "White"};
 		List<ParkingSlot> parkingSlots = new ArrayList<>();
 		ParkingSlot slot = new ParkingSlot(1, ParkingSlot.State.FREE);
 		slot.allocatedTo(new Car("jjjj", Car.Color.WHITE));
@@ -44,29 +45,17 @@ public class SearchRNByColorCommandTest {
 		Result result = searchRNByColorCommand.execute(inputParams);
 
 		assertEquals("jjjj,jjjj", result.getMessage());
-		verify(parkingLotService).search(SEARCH_BY_COLOR_FOR_SN, Car.Color.WHITE);
+		verify(parkingLotService).search(GET_SLOT_BY_COLOR, Car.Color.WHITE);
 	}
 
 	@Test
 	public void shouldThrowParkingLotExceptionWHenInputArgsLenghtIsNot3() {
-		String[] inputParams = new String[] {"slot_number_for_registration_number", "KA-01-P-333", "White", "sdds"};
+		String[] inputParams = new String[] {"registration_numbers_for_cars_with_colour", "KA-01-P-333", "White", "sdds"};
 		try {
 			searchRNByColorCommand
 					.execute(inputParams);
 		} catch (ParkingLotException exception) {
 			assertEquals("Invalid input param size", exception.getMessage());
 		}
-
-		verify(parkingLotService, never()).unPark(any());
-	}
-
-	@Test
-	public void shouldHandleparkingLotExceptionAndReturnResultWithErrorMessage() {
-		String[] inputParams = new String[] {"slot_number_for_registration_number", "MH-04-AY-1111"};
-		doThrow(new ParkingLotException("blah blah")).when(parkingLotService).search(any(), any());
-
-		Result result = searchRNByColorCommand.execute(inputParams);
-
-		assertEquals("blah blah", result.getMessage());
 	}
 }

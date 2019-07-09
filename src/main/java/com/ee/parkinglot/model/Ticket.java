@@ -11,6 +11,7 @@ public class Ticket {
 
 	public Ticket(ParkingSlot parkingSlot, Car car) {
 		this.parkingSlotNumber = parkingSlot.getSlotNumber();
+		this.carRegistrationNumber = car.getRegistrationNumber();
 		this.carColor = car.getColor();
 	}
 

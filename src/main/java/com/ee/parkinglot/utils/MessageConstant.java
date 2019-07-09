@@ -11,4 +11,6 @@ public interface MessageConstant {
 
 	String GET_SLOT_BY_COLOR = "GET_SLOT_BY_COLOR";
 	String GET_SLOT_BY_RN = "GET_SLOT_BY_RN";
+	String PROCESS_INPUT_FILE = "process_from_file";
+	String PROCESS_CONSOLE_COMMMANDS = "process_from_CONSOLE";
 }

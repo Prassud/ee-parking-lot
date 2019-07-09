@@ -1,6 +1,7 @@
 package com.ee.parkinglot.command;
 
 import com.ee.parkinglot.bean.Result;
+import com.ee.parkinglot.exception.ParkingLotException;
 import com.ee.parkinglot.model.Car;
 import com.ee.parkinglot.model.ParkingSlot;
 import com.ee.parkinglot.service.ParkingLotService;
@@ -19,12 +20,12 @@ public class SearchSNByRNCommand extends AbstractCommand {
 	@Override
 	public Result execute(String[] args) {
 		validateInputParamLength(args, 2);
-		Car.Color color = Car.Color.valueOf(args[1].toUpperCase());
+		String registrationNumber = args[1];
 		List<ParkingSlot> parkingSlots;
 		try {
-			parkingSlots = parkingLotService.search(MessageConstant.GET_SLOT_BY_RN, color);
-		} catch (PatternSyntaxException ex) {
-			return new Result(ex.getMessage(), true);
+			parkingSlots = parkingLotService.search(MessageConstant.GET_SLOT_BY_RN, registrationNumber);
+		} catch (ParkingLotException ex) {
+			return new Result(ex.getMessage(), false);
 		}
 
 		List<String> registrationNumbers = parkingSlots.stream().

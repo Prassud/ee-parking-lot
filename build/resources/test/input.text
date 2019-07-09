@@ -1,0 +1,7 @@
+create_parking_lot 6
+park KA-01-HH-1234 White
+leave 4
+status
+registration_numbers_for_cars_with_colour White
+slot_numbers_for_cars_with_colour White
+slot_number_for_registration_number MH-04-AY-1111

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.ee.parkinglot.io.ConsoleInputProcessorTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2019-07-09T18:12:36" hostname="in-Prasanns-2.local" time="0.037">
+  <properties/>
+  <testcase name="shouldExecuteParkCommands" classname="com.ee.parkinglot.io.ConsoleInputProcessorTest" time="0.03"/>
+  <testcase name="shouldExecuteSearnRnbyColorCommands" classname="com.ee.parkinglot.io.ConsoleInputProcessorTest" time="0.001"/>
+  <testcase name="shouldExecuteLeaveCommands" classname="com.ee.parkinglot.io.ConsoleInputProcessorTest" time="0.001"/>
+  <testcase name="shouldExecuteSearnSnbyColorCommands" classname="com.ee.parkinglot.io.ConsoleInputProcessorTest" time="0.001"/>
+  <testcase name="shouldExecuteSearchSnbyRNCommands" classname="com.ee.parkinglot.io.ConsoleInputProcessorTest" time="0.001"/>
+  <testcase name="shouldThrowInvalidExceptionWhenInvalidCommandIsProvide" classname="com.ee.parkinglot.io.ConsoleInputProcessorTest" time="0.0"/>
+  <testcase name="shouldExecuteStatusCommands" classname="com.ee.parkinglot.io.ConsoleInputProcessorTest" time="0.001"/>
+  <testcase name="shouldExecuteCreateCommands" classname="com.ee.parkinglot.io.ConsoleInputProcessorTest" time="0.001"/>
+  <testcase name="ShouldNotExecuteCommandOnExit" classname="com.ee.parkinglot.io.ConsoleInputProcessorTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

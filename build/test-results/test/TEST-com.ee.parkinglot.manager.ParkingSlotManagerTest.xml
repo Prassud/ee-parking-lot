@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.ee.parkinglot.manager.ParkingSlotManagerTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2019-07-09T18:12:36" hostname="in-Prasanns-2.local" time="0.016">
+  <properties/>
+  <testcase name="shouldCreateParkingSlotsWithSpecifiedSize" classname="com.ee.parkinglot.manager.ParkingSlotManagerTest" time="0.007"/>
+  <testcase name="shouldGetAllocatedParkingSlotStatuses" classname="com.ee.parkinglot.manager.ParkingSlotManagerTest" time="0.002"/>
+  <testcase name="shouldCreateTicketUsingTicketManager" classname="com.ee.parkinglot.manager.ParkingSlotManagerTest" time="0.0"/>
+  <testcase name="shouldGetTheParkingSlotDetailsFromAbstractSearchParkingSlot" classname="com.ee.parkinglot.manager.ParkingSlotManagerTest" time="0.001"/>
+  <testcase name="shouldThrowParkingLotExceptionWhenParkingSlotisNotFound" classname="com.ee.parkinglot.manager.ParkingSlotManagerTest" time="0.002"/>
+  <testcase name="shouldCallParkingLotAllocationStrategyToGetNextAvailableTicket" classname="com.ee.parkinglot.manager.ParkingSlotManagerTest" time="0.001"/>
+  <testcase name="shouldThrowParkingLotExceptionSearchCommandIsNotPresent" classname="com.ee.parkinglot.manager.ParkingSlotManagerTest" time="0.0"/>
+  <testcase name="shouldUnParkCarAndFreeParkingSlot" classname="com.ee.parkinglot.manager.ParkingSlotManagerTest" time="0.001"/>
+  <testcase name="shouldThrowParkingLotUnAvailableExceptionWhenParkingSLotsIsZero" classname="com.ee.parkinglot.manager.ParkingSlotManagerTest" time="0.001"/>
+  <testcase name="shouldThrowParkingLotUnAvailableExceptionWhenParkingLotIsUnavailable" classname="com.ee.parkinglot.manager.ParkingSlotManagerTest" time="0.0"/>
+  <testcase name="shouldThrowParkingLotExceptionWhenGetTheParkingSlotDetailsFromAbstractSearchParkingSlotIsNotPresent" classname="com.ee.parkinglot.manager.ParkingSlotManagerTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
