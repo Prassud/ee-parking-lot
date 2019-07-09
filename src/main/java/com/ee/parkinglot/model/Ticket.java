@@ -3,19 +3,19 @@ package com.ee.parkinglot.model;
 import java.util.Objects;
 
 public class Ticket {
-	private int parkingSlotNumbe;
+	private int parkingSlotNumber;
 
 	private String carRegistrationNumber;
 
 	private Car.Color carColor;
 
 	public Ticket(ParkingSlot parkingSlot, Car car) {
-		this.parkingSlotNumbe = parkingSlot.getSlotNumber();
+		this.parkingSlotNumber = parkingSlot.getSlotNumber();
 		this.carColor = car.getColor();
 	}
 
 	public int getParkingSlotNumber() {
-		return parkingSlotNumbe;
+		return parkingSlotNumber;
 	}
 
 	public String getCarRegistrationNumber() {
@@ -35,13 +35,13 @@ public class Ticket {
 			return false;
 		}
 		Ticket ticket = (Ticket) o;
-		return parkingSlotNumbe == ticket.parkingSlotNumbe &&
+		return parkingSlotNumber == ticket.parkingSlotNumber &&
 				Objects.equals(getCarRegistrationNumber(), ticket.getCarRegistrationNumber()) &&
 				getCarColor() == ticket.getCarColor();
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(parkingSlotNumbe, getCarRegistrationNumber(), getCarColor());
+		return Objects.hash(parkingSlotNumber, getCarRegistrationNumber(), getCarColor());
 	}
 }

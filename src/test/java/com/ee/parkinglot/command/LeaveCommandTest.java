@@ -8,38 +8,39 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.verify;
+import static org.junit.Assert.*;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class CreateCommandTest {
-	private CreateCommand createCommand;
-
+public class LeaveCommandTest {
 	@Mock
-	private ParkingLotService mockedPS;
+	private ParkingLotService parkingLotService;
+
+	private LeaveCommand leaveCommand;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		initMocks(this);
-		this.createCommand = new CreateCommand(MessageConstant.CREATE_COMMAND, mockedPS);
+		this.leaveCommand = new LeaveCommand(MessageConstant.LEAVE_COMMAND_NAME, parkingLotService);
 	}
 
 	@Test
-	public void shouldUseParkingLotServiceToCreateParkinglotOfGivenSize() {
-		String[] inputParams = new String[] {"create_parking_lot", "10"};
-		Result result = createCommand.execute(inputParams);
+	public void shouldUseParkingLotServiceToLeaveFromParkingLot() {
+		String[] inputParams = new String[] {"leave", "4"};
+		Result result = leaveCommand.execute(inputParams);
 
-		assertEquals("Created a parking lot with 10 slots", result.getMessage());
-		verify(mockedPS).createParkingLot(10);
+		assertEquals("Slot Number 4 is free", result.getMessage());
+		verify(parkingLotService).unPark(4);
 	}
 
 	@Test
 	public void shouldThrowParkingLotExceptionWhenSizeIsInvalidNumber() {
-		String[] inputParams = new String[] {"create_parking_lot", "abc"};
+		String[] inputParams = new String[] {"leave", "aaaa"};
 		try {
-			createCommand.execute(inputParams);
+			leaveCommand.execute(inputParams);
 		} catch (ParkingLotException exception) {
-			assertEquals("Invalid Number abc", exception.getMessage());
+			assertEquals("Invalid Number aaaa", exception.getMessage());
 		}
 	}
 
@@ -47,7 +48,7 @@ public class CreateCommandTest {
 	public void shouldThrowParkingLotExceptionWhenSizeIsZero() {
 		String[] inputParams = new String[] {"create_parking_lot", "0"};
 		try {
-			createCommand.execute(inputParams);
+			leaveCommand.execute(inputParams);
 		} catch (ParkingLotException exception) {
 			assertEquals("Invalid Number 0", exception.getMessage());
 		}
@@ -57,7 +58,7 @@ public class CreateCommandTest {
 	public void shouldThrowParkingLotExceptionWhenSizeIsLessThanOrEqualToNegative() {
 		String[] inputParams = new String[] {"create_parking_lot", "-1"};
 		try {
-			createCommand.execute(inputParams);
+			leaveCommand.execute(inputParams);
 		} catch (ParkingLotException exception) {
 			assertEquals("Invalid Number -1", exception.getMessage());
 		}
@@ -65,9 +66,9 @@ public class CreateCommandTest {
 
 	@Test
 	public void shouldThrowParkingLotExceptionWHenInputArgsLenghtIsNot2() {
-		String[] inputParams = new String[] {"create_parking_lot", "-1", "dsdff"};
+		String[] inputParams = new String[] {"leave", "4", "dsdff"};
 		try {
-			createCommand.execute(inputParams);
+			leaveCommand.execute(inputParams);
 		} catch (ParkingLotException exception) {
 			assertEquals("Invalid input param size", exception.getMessage());
 		}

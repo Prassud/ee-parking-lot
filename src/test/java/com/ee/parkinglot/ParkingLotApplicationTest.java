@@ -2,10 +2,13 @@ package com.ee.parkinglot;
 
 import com.ee.parkinglot.command.*;
 import com.ee.parkinglot.exception.ParkingLotException;
+import com.ee.parkinglot.factory.ParkingLotFactory;
+import com.ee.parkinglot.service.ParkingLotService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.BDDMockito;
 import org.mockito.Mock;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -19,11 +22,14 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(value = {ParkingLotApplication.class, ParkCommand.class, String.class, LeaveCommand.class, StatusCommand.class, SearchCommand.class})
+@PrepareForTest(value = {ParkingLotApplication.class, ParkingLotFactory.class, ParkingLotService.class, ParkCommand.class, String.class, LeaveCommand.class, StatusCommand.class, SearchSNByColorCommand.class})
 public class ParkingLotApplicationTest {
 
 	@Mock
 	private CreateCommand createCommand;
+
+	@Mock
+	private ParkingLotService parkingLotService;
 
 	@Mock
 	private ParkCommand parkCommand;
@@ -34,10 +40,10 @@ public class ParkingLotApplicationTest {
 	private StatusCommand statusCommand;
 
 	@Mock
-	private SearchCommand searchCommand;
+	private SearchSNByColorCommand searchSNByColorCommand;
 
 	@Mock
-	private SearchCommand searchCommand1;
+	private SearchSNByColorCommand searchSNByColorCommand1;
 
 	@Before
 	public void setUp() throws Exception {
@@ -48,6 +54,8 @@ public class ParkingLotApplicationTest {
 	public void shouldExecuteCommands() throws Exception {
 		String file = getClass().getClassLoader().getResource("input.text").getFile();
 		String[] args = new String[] {file};
+		PowerMockito.mockStatic(ParkingLotFactory.class);
+		BDDMockito.given(ParkingLotFactory.createParkingSlotService()).willReturn(parkingLotService);
 
 		//verify the commands to be executed
 		mockCommand();
@@ -56,12 +64,12 @@ public class ParkingLotApplicationTest {
 	}
 
 	private void mockCommand() throws Exception {
-		PowerMockito.whenNew(CreateCommand.class).withArguments("create_parking_lot").thenReturn(createCommand);
-		PowerMockito.whenNew(ParkCommand.class).withArguments("park").thenReturn(parkCommand);
-		PowerMockito.whenNew(LeaveCommand.class).withArguments("leave").thenReturn(leaveCommand);
-		PowerMockito.whenNew(SearchCommand.class).withArguments("registration_numbers_for_cars_with_colour").thenReturn(searchCommand);
-		PowerMockito.whenNew(SearchCommand.class).withArguments("slot_numbers_for_cars_with_colour").thenReturn(searchCommand1);
-		PowerMockito.whenNew(StatusCommand.class).withArguments("status").thenReturn(statusCommand);
+		PowerMockito.whenNew(CreateCommand.class).withArguments("create_parking_lot", parkingLotService).thenReturn(createCommand);
+		PowerMockito.whenNew(ParkCommand.class).withArguments("park", parkingLotService).thenReturn(parkCommand);
+		PowerMockito.whenNew(LeaveCommand.class).withArguments("leave", parkingLotService).thenReturn(leaveCommand);
+		PowerMockito.whenNew(SearchSNByColorCommand.class).withArguments("registration_numbers_for_cars_with_colour", parkingLotService).thenReturn(searchSNByColorCommand);
+		PowerMockito.whenNew(SearchSNByColorCommand.class).withArguments("slot_numbers_for_cars_with_colour", parkingLotService).thenReturn(searchSNByColorCommand1);
+		PowerMockito.whenNew(StatusCommand.class).withArguments("status", parkingLotService).thenReturn(statusCommand);
 	}
 
 	private void verifyCommands() {
@@ -73,8 +81,8 @@ public class ParkingLotApplicationTest {
 
 		verify(parkCommand).execute(parkCommandCaptor.capture());
 		verify(leaveCommand).execute(leaveCommandCaptor.capture());
-		verify(searchCommand).execute(searchCommandCaptor.capture());
-		verify(searchCommand1).execute(searchCommand1Captor.capture());
+		verify(searchSNByColorCommand).execute(searchCommandCaptor.capture());
+		verify(searchSNByColorCommand1).execute(searchCommand1Captor.capture());
 		verify(statusCommand).execute(statusCommandCaptor.capture());
 
 		assertArrayEquals(new String[] {"park", "KA-01-HH-1234", "White"}, parkCommandCaptor.getValue());

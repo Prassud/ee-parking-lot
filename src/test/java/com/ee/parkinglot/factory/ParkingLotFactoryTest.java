@@ -9,14 +9,12 @@ import org.powermock.api.mockito.PowerMockito;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
 import static org.powermock.api.mockito.PowerMockito.mock;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 public class ParkingLotFactoryTest {
 
 	@Test
-	public void shoouleCreateParkingLotService() throws Exception {
+	public void shoouldCreateParkingLotService() throws Exception {
 		SequenceParkingLotAllocationStrategy sequenceParkingLotAllocationStrategy
 				= mock(SequenceParkingLotAllocationStrategy.class);
 		PowerMockito.whenNew(SequenceParkingLotAllocationStrategy.class)
@@ -33,6 +31,8 @@ public class ParkingLotFactoryTest {
 		ParkingSlotManager slotManger = mock(ParkingSlotManager.class);
 		PowerMockito.whenNew(ParkingSlotManager.class)
 				.withArguments(sequenceParkingLotAllocationStrategy, ticketManager, mockList).thenReturn(slotManger);
+
+		ParkingLotFactory.createParkingSlotService();
 
 		PowerMockito.verifyNew(ParkingLotService.class).withArguments(slotManger);
 	}

@@ -2,6 +2,8 @@ package com.ee.parkinglot;
 
 import com.ee.parkinglot.command.*;
 import com.ee.parkinglot.exception.ParkingLotException;
+import com.ee.parkinglot.factory.ParkingLotFactory;
+import com.ee.parkinglot.service.ParkingLotService;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -19,12 +21,14 @@ public class ParkingLotApplication {
 	private void initialize() {
 		this.commands = new HashMap<>();
 
+
+		ParkingLotService parkingLotService = ParkingLotFactory.createParkingSlotService();
 		this.commands.put(CREATE_COMMAND, new CreateCommand(CREATE_COMMAND, parkingLotService));
-		this.commands.put(PARK_COMMAND_NAME, new ParkCommand(PARK_COMMAND_NAME));
-		this.commands.put(LEAVE_COMMAND_NAME, new LeaveCommand(LEAVE_COMMAND_NAME));
-		this.commands.put(SEARCH_BY_COLOR, new SearchCommand(SEARCH_BY_COLOR));
-		this.commands.put(SEARCH_BY_REGISTER_NUMBER, new SearchCommand(SEARCH_BY_REGISTER_NUMBER));
-		this.commands.put(STATUS_COMMAND_NAME, new StatusCommand(STATUS_COMMAND_NAME));
+		this.commands.put(PARK_COMMAND_NAME, new ParkCommand(PARK_COMMAND_NAME, parkingLotService));
+		this.commands.put(LEAVE_COMMAND_NAME, new LeaveCommand(LEAVE_COMMAND_NAME, parkingLotService));
+		this.commands.put(SEARCH_BY_COLOR_FOR_SN, new SearchSNByColorCommand(SEARCH_BY_COLOR_FOR_SN, parkingLotService));
+		this.commands.put(SEARCH_BY_REGISTER_NUMBER, new SearchSNByColorCommand(SEARCH_BY_REGISTER_NUMBER, parkingLotService));
+		this.commands.put(STATUS_COMMAND_NAME, new StatusCommand(STATUS_COMMAND_NAME, parkingLotService));
 	}
 
 	public static void main(String[] args) throws IOException {

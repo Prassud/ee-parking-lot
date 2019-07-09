@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 public class ParkingLotFactory {
 
-
 	public static ParkingLotService createParkingSlotService() {
 		ParkingLotAllocationStrategy parkingLotAllocationStrategy = new SequenceParkingLotAllocationStrategy();
 		TicketManager ticketManager = new TicketManager();

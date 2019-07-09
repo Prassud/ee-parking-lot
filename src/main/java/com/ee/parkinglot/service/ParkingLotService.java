@@ -26,7 +26,7 @@ public class ParkingLotService {
 		return parkingSlotManager.searchParkingSlot(searchCommandName, searchParam);
 	}
 
-	public void createParkingLot(int i) {
+	public void createParkingLot(int size) {
 
 	}
 }
