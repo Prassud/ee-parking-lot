@@ -33,8 +33,6 @@ public class ParkingLotApplication {
 			throw new IllegalArgumentException("Invalid Input option Provided");
 		}
 
-		System.out.println("----------------- Welcome to Parking lot -----------------------------");
-
 		ParkingLotApplication app = new ParkingLotApplication();
 		app.initialize();
 
@@ -43,7 +41,6 @@ public class ParkingLotApplication {
 			throw new IllegalArgumentException("Invalid option to process");
 		}
 		abstractInputProcessor.execute(args);
-		System.out.println("-----------------  I am Done :) -----------------------------");
 	}
 
 	private void createCommands(Map<String, AbstractCommand> commands, ParkingLotService parkingLotService) {

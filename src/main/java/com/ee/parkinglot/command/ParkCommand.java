@@ -17,7 +17,7 @@ public class ParkCommand extends AbstractCommand {
 		String registrationNumber = args[1];
 		String color = args[2];
 
-		Car car = new Car(registrationNumber, Car.Color.valueOf(color.toUpperCase()));
+		Car car = new Car(registrationNumber, Car.Color.valueOf(color));
 		Ticket ticket;
 		try {
 			ticket = parkingLotService.park(car);
