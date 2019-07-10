@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.ee.parkinglot.search.SearchSlotByRegistrationNumberTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2019-07-09T18:12:36" hostname="in-Prasanns-2.local" time="0.009">
-  <properties/>
-  <testcase name="shouldGetTheParkingSlotDetailsBasedOnRegistrationNumber" classname="com.ee.parkinglot.search.SearchSlotByRegistrationNumberTest" time="0.009"/>
-  <testcase name="shouldReturnParkingSlotListAsEmpty" classname="com.ee.parkinglot.search.SearchSlotByRegistrationNumberTest" time="0.0"/>
-  <testcase name="shouldReturnParkingSlotListAsEmptyWhenNoParkingSlotIsAllocated" classname="com.ee.parkinglot.search.SearchSlotByRegistrationNumberTest" time="0.0"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

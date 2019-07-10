@@ -45,7 +45,7 @@ public class ParkCommandTest {
 
 		Car car1 = captor.getValue();
 		assertEquals("KA-01-P-333", car1.getRegistrationNumber());
-		assertEquals(Car.Color.valueOf("White".toUpperCase()), car1.getColor());
+		assertEquals(Car.Color.valueOf("White"), car1.getColor());
 		assertEquals("Allocated slot number: 1", result.getMessage());
 	}
 

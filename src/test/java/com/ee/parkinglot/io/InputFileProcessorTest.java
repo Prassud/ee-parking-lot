@@ -2,12 +2,10 @@ package com.ee.parkinglot.io;
 
 import com.ee.parkinglot.command.AbstractCommand;
 import com.ee.parkinglot.exception.ParkingLotException;
-import com.ee.parkinglot.service.ParkingLotService;
 import com.ee.parkinglot.utils.MessageConstant;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Mock;
 
 import java.util.HashMap;
 import java.util.Map;

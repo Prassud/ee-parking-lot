@@ -1,5 +1,6 @@
 package com.ee.parkinglot.io;
 
+import com.ee.parkinglot.bean.Result;
 import com.ee.parkinglot.command.AbstractCommand;
 import com.ee.parkinglot.exception.ParkingLotException;
 import com.ee.parkinglot.utils.MessageConstant;
@@ -16,6 +17,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
+import static org.powermock.api.mockito.PowerMockito.when;
 
 public class ConsoleInputProcessorTest extends BaseInputProcessor {
 
@@ -34,6 +36,7 @@ public class ConsoleInputProcessorTest extends BaseInputProcessor {
 	public void shouldExecuteCreateCommands() throws Exception {
 		String[] args = new String[] {MessageConstant.PROCESS_CONSOLE_COMMMANDS};
 		ByteArrayInputStream bais = new ByteArrayInputStream("create_parking_lot 6".getBytes());
+		when(createCommand.execute(any())).thenReturn(new Result("success",true));
 		System.setIn(bais);
 		//verify the commands to be executed
 		consoleInputProcessor.execute(args);
@@ -47,6 +50,7 @@ public class ConsoleInputProcessorTest extends BaseInputProcessor {
 	public void shouldExecuteParkCommands() throws Exception {
 		String[] args = new String[] {MessageConstant.PROCESS_CONSOLE_COMMMANDS};
 		ByteArrayInputStream bais = new ByteArrayInputStream("park KA-01-HH-1234 White".getBytes());
+		when(parkCommand.execute(any())).thenReturn(new Result("success",true));
 		System.setIn(bais);
 		//verify the commands to be executed
 		consoleInputProcessor.execute(args);
@@ -60,6 +64,7 @@ public class ConsoleInputProcessorTest extends BaseInputProcessor {
 	public void shouldExecuteLeaveCommands() throws Exception {
 		String[] args = new String[] {MessageConstant.PROCESS_CONSOLE_COMMMANDS};
 		ByteArrayInputStream bais = new ByteArrayInputStream("leave 4".getBytes());
+		when(leaveCommand.execute(any())).thenReturn(new Result("success",true));
 		System.setIn(bais);
 		//verify the commands to be executed
 		consoleInputProcessor.execute(args);
@@ -73,6 +78,7 @@ public class ConsoleInputProcessorTest extends BaseInputProcessor {
 	public void shouldExecuteStatusCommands() throws Exception {
 		String[] args = new String[] {MessageConstant.PROCESS_CONSOLE_COMMMANDS};
 		ByteArrayInputStream bais = new ByteArrayInputStream("status".getBytes());
+		when(statusCommand.execute(any())).thenReturn(new Result("success",true));
 		System.setIn(bais);
 		//verify the commands to be executed
 		consoleInputProcessor.execute(args);
@@ -86,6 +92,7 @@ public class ConsoleInputProcessorTest extends BaseInputProcessor {
 	public void shouldExecuteSearnRnbyColorCommands() throws Exception {
 		String[] args = new String[] {MessageConstant.PROCESS_CONSOLE_COMMMANDS};
 		ByteArrayInputStream bais = new ByteArrayInputStream("registration_numbers_for_cars_with_colour White".getBytes());
+		when(searchRNByColorCommand.execute(any())).thenReturn(new Result("success",true));
 		System.setIn(bais);
 		//verify the commands to be executed
 		consoleInputProcessor.execute(args);
@@ -101,6 +108,7 @@ public class ConsoleInputProcessorTest extends BaseInputProcessor {
 
 		String[] args = new String[] {MessageConstant.PROCESS_CONSOLE_COMMMANDS};
 		ByteArrayInputStream bais = new ByteArrayInputStream("slot_numbers_for_cars_with_colour White".getBytes());
+		when(searchSNByColorCommand1.execute(any())).thenReturn(new Result("success",true));
 		System.setIn(bais);
 		//verify the commands to be executed
 		consoleInputProcessor.execute(args);
@@ -114,6 +122,7 @@ public class ConsoleInputProcessorTest extends BaseInputProcessor {
 	public void shouldExecuteSearchSnbyRNCommands() throws Exception {
 		String[] args = new String[] {MessageConstant.PROCESS_CONSOLE_COMMMANDS};
 		ByteArrayInputStream bais = new ByteArrayInputStream("slot_number_for_registration_number MH-04-AY-1111".getBytes());
+		when(searchSNByRNCommand.execute(any())).thenReturn(new Result("success",true));
 		System.setIn(bais);
 		//verify the commands to be executed
 		consoleInputProcessor.execute(args);
