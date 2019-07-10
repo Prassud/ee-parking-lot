@@ -18,7 +18,7 @@ jar {
     }
     version = null
     manifest {
-        attributes 'Main-Class': 'com.ee.parkinglot.ParkinglotApplication'
+        attributes 'Main-Class': 'com.ee.parkinglot.ParkingLotApplication'
     }
 }
 
