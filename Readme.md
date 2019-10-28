@@ -3,11 +3,11 @@
 
 ## What it does (so far)
 - It supports
-  1.) creating the parking slot
-  2.) un park the car
-  3.) park the car
-  4.) search
-  5.) status
+  -  1.) creating the parking slot
+  - 2.) un park the car
+  - 3.) park the car
+  - 4 .) search
+  - 5.) status
 
 ## Setup
 ##Prerequisites:
